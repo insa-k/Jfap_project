@@ -27,7 +27,7 @@ public class Character {
 	 */
 	protected AdditiveEffect baseDamage;
 	/**
-	 * The maximal amount of weight the character can carry. The sum of the weig ht
+	 * The maximal amount of weight the character can carry. The sum of the weight
 	 * of all items in the character's inventory must not exceed this value.
 	 */
 	protected int maxWeight;

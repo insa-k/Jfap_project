@@ -8,8 +8,8 @@ public class DoorTile extends WallTile {
 	private boolean locked = false;
 	private Hallway hallway;
 	/**
-	 * To be opened by an item (key) the Effect of that item needs to create a m
-	 * atching ID.
+	 * To be opened by an item (key) the Effect of that item needs to create a
+	 * matching ID.
 	 */
 	private int keyId;
 

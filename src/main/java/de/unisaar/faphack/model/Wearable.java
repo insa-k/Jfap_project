@@ -14,7 +14,7 @@ public class Wearable extends Item {
 	protected int weight;
 	protected boolean isWeapon;
 	/**
-	 * The character who carries this item. This is null if the Item is placed o n a
+	 * The character who carries this item. This is null if the Item is placed on a
 	 * Tile.
 	 */
 	protected Character character;

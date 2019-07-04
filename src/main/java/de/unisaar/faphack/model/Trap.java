@@ -9,7 +9,7 @@ package de.unisaar.faphack.model;
  */
 public class Trap extends Fixtures {
 	/**
-	 * Traps might also be placed on StairTiles. In this case, the stair is mas ked
+	 * Traps might also be placed on StairTiles. In this case, the stair is masked
 	 * by the Trap and thus not visible for the character, i.e. a trap door.
 	 * 
 	 */
