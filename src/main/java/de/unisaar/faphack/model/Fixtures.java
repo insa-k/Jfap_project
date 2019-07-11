@@ -10,8 +10,8 @@ package de.unisaar.faphack.model;
  */
 public class Fixtures extends Item {
 
-	public Fixtures() {
+  public Fixtures() {
 
-	}
+  }
 
 }
