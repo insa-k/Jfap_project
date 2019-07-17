@@ -32,8 +32,14 @@ public class Room {
   public Tile getNextTile(Tile t, Direction d) {
     int new_x = t.x + d.x;
     int new_y = t.y + d.y;
+    // move only one tile, allows diagonal movement
+    int x_movement = t.x - new_x;
+    int y_movement = t.y - new_y;
+    // possible differences: -1, 1, 0 for x and y movement
+    // if movement is possible return new tile else return null
     // TODO: what if you're now outside the room
-    return this.tiles[new_x][new_y];
+    if(x_movement <= 1 && x_movement >= -1 && y_movement <= 1 && y_movement >= -1) { return this.tiles[new_x][new_y]; }
+    else { return null; }
   }
 
 }
