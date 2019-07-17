@@ -83,17 +83,9 @@ class RoomTest {
     // Create small room
     List<Item> items = new ArrayList<Item>();
     Tile t1 = new FloorTile(0, 0, new Room(), items);
-    t1.x = 0;
-    t1.y = 0;
-    Tile t2 = new FloorTile();
-    t2.x = 0;
-    t2.y = 1;
-    Tile t3 = new FloorTile();
-    t3.x = 1;
-    t3.y = 0;
-    Tile t4 = new FloorTile();
-    t4.x = 1;
-    t4.y = 1;
+    Tile t2 = new FloorTile(0, 1, new Room(), items);
+    Tile t3 = new FloorTile(1, 0, new Room(), items);
+    Tile t4 = new FloorTile(1, 1, new Room(), items);
     
     Tile[][] tiles = {{t1, t2},{t3, t4}};
     

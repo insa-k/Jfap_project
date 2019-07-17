@@ -25,6 +25,13 @@ public abstract class Tile {
   public Tile() {
 
   }
+  
+  public Tile(int x, int y, Room room, List<Item> items) {
+    this.x = x;
+    this.y = y;
+    this.room = room;
+    this.items = items;
+  }
 
   /**
    * Given the "vector" d, what's the tile you get in return? (Hint: ask the room)
