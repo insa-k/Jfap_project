@@ -109,8 +109,15 @@ class RoomTest {
     assert(destination == t4);
     
     // Check non-adjacent tile, TODO: new bigger Room
+    d = new Direction(0, 8);
+    destination = r.getNextTile(t1, d);
+    assert(destination == null);
     
     // Check moving outside the room
+    d = new Direction(0, -1);
+    destination = r.getNextTile(t1, d);
+    assert(destination == null);
+
   }
 
 }
