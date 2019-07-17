@@ -8,19 +8,19 @@ package de.unisaar.faphack.model;
  *
  */
 public class Wearable extends Item {
-	/**
-	 * The weight of the item.
-	 */
-	protected int weight;
-	protected boolean isWeapon;
-	/**
-	 * The character who carries this item. This is null if the Item is placed o n a
-	 * Tile.
-	 */
-	protected Character character;
+  /**
+   * The weight of the item.
+   */
+  protected int weight;
+  protected boolean isWeapon;
+  /**
+   * The character who carries this item. This is null if the Item is placed o n a
+   * Tile.
+   */
+  protected Character character;
 
-	public Wearable() {
+  public Wearable() {
 
-	}
+  }
 
 }
