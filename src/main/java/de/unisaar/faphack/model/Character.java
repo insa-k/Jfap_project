@@ -86,6 +86,7 @@ public class Character {
    */
   public void move(Tile destination) {
     // TODO Auto-generated method stub
+    this.tile = destination;
   }
 
   /**
