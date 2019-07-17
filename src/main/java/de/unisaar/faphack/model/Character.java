@@ -85,6 +85,7 @@ public class Character {
    * @return void
    */
   public void move(Tile destination) {
+      this.tile = destination;
     // TODO Auto-generated method stub
   }
 
@@ -95,8 +96,21 @@ public class Character {
    * @return boolean
    */
   public boolean pickUp(Wearable what) {
-    // TODO Auto-generated method stub
-    return false;
+    if ((what.weight+carringWeight(this.items)) < this.maxWeight){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private int carringWeight  (List<Item> inventory){
+    int weight = 0;
+    for (int x=0; x<(inventory.size()); x++){
+        Item item = inventory.get(x);
+        //weight += item.weight;
+    }
+
+    return weight;
   }
 
   /**
