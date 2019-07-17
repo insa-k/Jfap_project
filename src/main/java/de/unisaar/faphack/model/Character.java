@@ -85,7 +85,7 @@ public class Character {
    * @return void
    */
   public void move(Tile destination) {
-    // TODO Auto-generated method stub
+    // Sets new tile position
     this.tile = destination;
   }
 
