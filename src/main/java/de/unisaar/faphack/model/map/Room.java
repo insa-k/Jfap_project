@@ -40,7 +40,7 @@ public class Room {
     if(x_movement <= 1 && x_movement >= -1 && y_movement <= 1 && y_movement >= -1) {
       // check if new tile is still in the room (array)
       try { return this.tiles[new_x][new_y]; }
-      catch (IndexOutOfBoundsException e) { return null ; }
+      catch (ArrayIndexOutOfBoundsException e) { return null ; }
     }
     else { return null; }
   }
