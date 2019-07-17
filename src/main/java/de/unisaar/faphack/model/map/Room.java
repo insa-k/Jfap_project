@@ -17,7 +17,7 @@ public class Room {
   private Tile[][] tiles;
 
   public Room() {
-
+	  // TODO: set World and Tile Array
   }
 
   Room(Tile[][] tiles){
@@ -25,7 +25,10 @@ public class Room {
   }
 
   public Tile getNextTile(Tile t, Direction d) {
-    return null;
+    int new_x = t.x + d.x;
+    int new_y = t.y + d.y;
+    // TODO: what if you're now outside the room
+    return this.tiles[new_x][new_y];
   }
 
 }
