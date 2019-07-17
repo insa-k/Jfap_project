@@ -1,9 +1,9 @@
 package de.unisaar.faphack.model;
 
+import de.unisaar.faphack.model.map.Tile;
+
 import java.util.List;
 import java.util.Set;
-
-import de.unisaar.faphack.model.map.Tile;
 
 /**
  * @author
@@ -85,7 +85,8 @@ public class Character {
    * @return void
    */
   public void move(Tile destination) {
-    // TODO Auto-generated method stub
+    // Sets new tile position
+    this.tile = destination;
   }
 
   /**
