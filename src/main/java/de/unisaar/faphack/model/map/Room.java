@@ -37,8 +37,11 @@ public class Room {
     int y_movement = t.y - new_y;
     // possible differences: -1, 1, 0 for x and y movement
     // if movement is possible return new tile else return null
-    // TODO: what if you're now outside the room
-    if(x_movement <= 1 && x_movement >= -1 && y_movement <= 1 && y_movement >= -1) { return this.tiles[new_x][new_y]; }
+    if(x_movement <= 1 && x_movement >= -1 && y_movement <= 1 && y_movement >= -1) {
+      // check if new tile is still in the room (array)
+      try { return this.tiles[new_x][new_y]; }
+      catch (IndexOutOfBoundsException e) { return null ; }
+    }
     else { return null; }
   }
 
