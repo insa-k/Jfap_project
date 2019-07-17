@@ -1,4 +1,4 @@
-package de.unisaar.faphack.model;
+package de.unisaar.faphack.model.map;
 
 /**
  * @author
@@ -6,8 +6,8 @@ package de.unisaar.faphack.model;
  */
 public class ObstacleTile extends WallTile {
 
-	public ObstacleTile() {
+  public ObstacleTile() {
 
-	}
+  }
 
 }

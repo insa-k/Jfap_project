@@ -30,4 +30,5 @@ target/
 .project
 .settings/
 
+.iml
 *.iml
