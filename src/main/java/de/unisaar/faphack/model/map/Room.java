@@ -22,11 +22,16 @@ public class Room {
   private Tile[][] tiles;
 
   public Room() {
-	  // TODO: set World and Tile Array
+    // TODO: set World and Tile Array
   }
 
-  Room(Tile[][] tiles){
+  public Room(Tile[][] tiles){
     this.tiles = tiles;
+  }
+
+  public Room(List<Character> inhabitants, Tile[][] tiles){
+    this.tiles = tiles;
+    this.inhabitants = inhabitants;
   }
 
   public Tile getNextTile(Tile t, Direction d) {
