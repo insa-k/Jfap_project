@@ -28,13 +28,12 @@ public class Game {
     
     // Get destination tile
     Tile temp_destination = current_position.getNextTile(direction);
+    // Movement is not possible
+    if (temp_destination == null) { return false; }
     // check whether movement is ok
     Tile destination = temp_destination.willTake(whom);
-    if (destination == null) {
-      // Movement is not possible
-      return false;
-    }
     // Movement possible
+    if (destination == null) {return false; }
     whom.move(destination);
     return true;
   }
