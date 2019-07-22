@@ -42,10 +42,12 @@ implements Effect<CharacterModifier, CharacterModifier>, Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO: FILL THIS
+    c.write("ModifyingEffect", this);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO: FILL THIS
+    c.read("ModifyingEffect");
   }
 }
