@@ -87,7 +87,7 @@ public abstract class Tile implements Storable, TraitOwner {
     // TODO please implement me!
   }
 
-  public boolean pickupItem(Wearable what){
+  public boolean removeItem(Wearable what){
     return false;
   }
 }

@@ -29,7 +29,13 @@ public class CharacterModifier implements Storable {
   public int howLong() {
     return howLong;
   }
-  //public boolean applyEffect(Character c) {}
+
+  public boolean applyEffect(Character c){
+    howLong -= 1;
+
+    return true;
+  }
+
 
   @Override
   public void marshal(MarshallingContext c) {

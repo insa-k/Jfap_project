@@ -38,7 +38,7 @@ public class FloorTile extends Tile {
   }
 
   @Override
-  public boolean pickupItem(Wearable what) {
+  public boolean removeItem(Wearable what) {
     return items.remove(what);
   }
 
