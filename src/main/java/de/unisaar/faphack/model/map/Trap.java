@@ -24,9 +24,13 @@ public class Trap extends Fixtures {
 
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    super.marshal(c);
+    c.write("Trap", this);
   }
 
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    super.unmarshal(c);
+    c.read("Trap");
   }
 }

@@ -81,10 +81,12 @@ public abstract class Tile implements Storable, TraitOwner {
 
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("Tile", this);
   }
 
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    c.read("Tile");
   }
 
   public boolean pickupItem(Wearable what){
