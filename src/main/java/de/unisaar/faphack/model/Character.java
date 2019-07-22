@@ -1,16 +1,19 @@
 package de.unisaar.faphack.model;
 
-import java.util.List;
-import java.util.Set;
-
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author
  *
  */
-public class Character implements Storable, TraitedTileOccupier {
+public class Character extends AbstractObservable<TraitedTileOccupier>
+implements Storable, TraitedTileOccupier {
 
   /**
    * I'm currently on this level
@@ -25,7 +28,7 @@ public class Character implements Storable, TraitedTileOccupier {
    * The characters inventory. The amount of items in the inventory is limited by
    * the maxWeight value of a character.
    */
-  protected List<Wearable> items;
+  protected List<Wearable> items = new ArrayList<>();
 
   /**
    * The base health of the character, which can be modified by Modifiers.
@@ -53,7 +56,7 @@ public class Character implements Storable, TraitedTileOccupier {
   /**
    * This might be shield / bodyarmor / etc.
    */
-  protected List<Wearable> armor;
+  protected List<Wearable> armor = new ArrayList<>();
 
   /**
    * The maximal amount of weight the character can carry. The sum of the weight
@@ -63,10 +66,15 @@ public class Character implements Storable, TraitedTileOccupier {
   protected int maxWeight;
 
   /**
+   * The currentWeight is the combined weights of armor, weapon and inventory
+   */
+  private int currentWeight = 0;
+
+  /**
    * All effects that currently apply on the character, for example damage or heal
    * over time
    */
-  protected Set<CharacterModifier> activeEffects;
+  protected Set<CharacterModifier> activeEffects = new HashSet<>();
 
   /**
    * That's my name
@@ -104,6 +112,7 @@ public class Character implements Storable, TraitedTileOccupier {
    * @return boolean
    */
   public boolean pickUp(Wearable what) {
+    // TODO please implement me! (done?)
     //done
     if ((what.weight+carryingWeight(this.items)) < this.maxWeight){
       return true;
@@ -139,8 +148,37 @@ public class Character implements Storable, TraitedTileOccupier {
     return tile;
   }
 
-  public int hasForce() {
+  public int getHealth() {
+    return health;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getLevel() {
+    return level;
+  }
+
+  public int getMagic() {
+    return magic;
+  }
+
+  public int getPower() {
     return power;
+  }
+
+  public int getMaxWeight() {
+    return maxWeight;
+  }
+
+  public Wearable getActiveWeapon() {
+    return activeWeapon;
+  }
+
+  public int getWeight() {
+    // TODO: implement
+    return 0;
   }
 
   public int levelDown() {
@@ -183,12 +221,12 @@ public class Character implements Storable, TraitedTileOccupier {
 
   @Override
   public void marshal(MarshallingContext c) {
-    // TODO fill this
+    // TODO please implement me!
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
-    // TODO fill this
+    // TODO please implement me!
   }
 
 }
