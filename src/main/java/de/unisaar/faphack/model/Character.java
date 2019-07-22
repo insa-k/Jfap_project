@@ -1,16 +1,17 @@
 package de.unisaar.faphack.model;
 
-import java.util.List;
-import java.util.Set;
-
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author
  *
  */
-public class Character implements Storable, TraitedTileOccupier {
+public class Character extends AbstractObservable<TraitedTileOccupier>
+implements Storable, TraitedTileOccupier {
 
   /**
    * I'm currently on this level
@@ -63,6 +64,11 @@ public class Character implements Storable, TraitedTileOccupier {
   protected int maxWeight;
 
   /**
+   * The currentWeight is the combined weights of armor, weapon and inventory
+   */
+  private int currentWeight = 0;
+
+  /**
    * All effects that currently apply on the character, for example damage or heal
    * over time
    */
@@ -94,9 +100,7 @@ public class Character implements Storable, TraitedTileOccupier {
    * @return void
    */
   public void move(Tile destination) {
-    // TODO: FILL THIS
-    // Sets new tile position
-    this.tile = destination;
+    tile = destination;
   }
 
   /**
@@ -106,7 +110,7 @@ public class Character implements Storable, TraitedTileOccupier {
    * @return boolean
    */
   public boolean pickUp(Wearable what) {
-    // TODO Auto-generated method stub
+    // TODO please implement me!
     return false;
   }
 
@@ -125,8 +129,37 @@ public class Character implements Storable, TraitedTileOccupier {
     return tile;
   }
 
-  public int hasForce() {
+  public int getHealth() {
+    return health;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getLevel() {
+    return level;
+  }
+
+  public int getMagic() {
+    return magic;
+  }
+
+  public int getPower() {
     return power;
+  }
+
+  public int getMaxWeight() {
+    return maxWeight;
+  }
+
+  public Wearable getActiveWeapon() {
+    return activeWeapon;
+  }
+
+  public int getWeight() {
+    // TODO: implement
+    return 0;
   }
 
   public int levelDown() {
@@ -164,12 +197,12 @@ public class Character implements Storable, TraitedTileOccupier {
 
   @Override
   public void marshal(MarshallingContext c) {
-    // TODO fill this
+    // TODO please implement me!
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
-    // TODO fill this
+    // TODO please implement me!
   }
 
 }
