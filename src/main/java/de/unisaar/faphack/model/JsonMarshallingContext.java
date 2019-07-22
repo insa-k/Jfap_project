@@ -69,7 +69,17 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public int readInt(String key) {
     // TODO Auto-generated method stub
-    return 0;
+    JSONParser jsonParser = new JSONParser();
+    try {
+      Object object = jsonParser.parse(file.toString());
+      JSONObject jsonObject = (JSONObject) object;
+      int number = (int) jsonObject.get(key);
+      return number;
+    }
+    catch (ParseException e) {
+      System.out.println("ParseException: Cannot parse given file!");
+      return 0;
+    }
   }
 
   @Override
@@ -81,7 +91,17 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public double readDouble(String key) {
     // TODO Auto-generated method stub
-    return 0;
+    JSONParser jsonParser = new JSONParser();
+    try {
+      Object object = jsonParser.parse(file.toString());
+      JSONObject jsonObject = (JSONObject) object;
+      double number = (double) jsonObject.get(key);
+      return number;
+    }
+    catch (ParseException e) {
+      System.out.println("ParseException: Cannot parse given file!");
+      return 0;
+    }
   }
 
   @Override
@@ -93,7 +113,17 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public String readString(String key) {
     // TODO Auto-generated method stub
-    return null;
+    JSONParser jsonParser = new JSONParser();
+    try {
+      Object object = jsonParser.parse(file.toString());
+      JSONObject jsonObject = (JSONObject) object;
+      String string = (String) jsonObject.get(key);
+      return string;
+    }
+    catch (ParseException e) {
+      System.out.println("ParseException: Cannot parse given file!");
+      return null;
+    }
   }
 
   @Override
@@ -105,7 +135,6 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void readAll(String key, Collection<? extends Storable> coll) {
     // TODO Auto-generated method stub
-
   }
 
   @Override
