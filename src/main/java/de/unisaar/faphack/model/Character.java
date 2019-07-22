@@ -209,7 +209,7 @@ implements Storable, TraitedTileOccupier {
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
-    if (eff.applyTo()) {
+    if (eff.applyTo(this)) {
       health += eff.health;
       magic += eff.magic;
       power += eff.power;
