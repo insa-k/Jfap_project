@@ -35,7 +35,17 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   public Storable read() {
     // TODO Auto-generated method stub
-    return null;
+    JSONParser jsonParser = new JSONParser();
+    try {
+      Object storableObject = jsonParser.parse(file.toString());
+      JSONObject storableJSON = (JSONObject) storableObject;
+      // TODO: return Storable from StorableJSON
+      return null;
+    }
+    catch (ParseException e) {
+      System.out.println("ParseException: Cannot parse given file!");
+      return null;
+    }
   }
 
   @Override
