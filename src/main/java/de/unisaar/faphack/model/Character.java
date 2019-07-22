@@ -3,6 +3,8 @@ package de.unisaar.faphack.model;
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +28,7 @@ implements Storable, TraitedTileOccupier {
    * The characters inventory. The amount of items in the inventory is limited by
    * the maxWeight value of a character.
    */
-  protected List<Wearable> items;
+  protected List<Wearable> items = new ArrayList<>();
 
   /**
    * The base health of the character, which can be modified by Modifiers.
@@ -54,7 +56,7 @@ implements Storable, TraitedTileOccupier {
   /**
    * This might be shield / bodyarmor / etc.
    */
-  protected List<Wearable> armor;
+  protected List<Wearable> armor = new ArrayList<>();
 
   /**
    * The maximal amount of weight the character can carry. The sum of the weight
@@ -72,7 +74,7 @@ implements Storable, TraitedTileOccupier {
    * All effects that currently apply on the character, for example damage or heal
    * over time
    */
-  protected Set<CharacterModifier> activeEffects;
+  protected Set<CharacterModifier> activeEffects = new HashSet<>();
 
   /**
    * That's my name
