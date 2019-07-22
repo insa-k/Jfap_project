@@ -94,7 +94,7 @@ public class Character implements Storable, TraitedTileOccupier {
    * @return void
    */
   public void move(Tile destination) {
-    // TODO: FILL THIS
+    tile = destination;
   }
 
   /**
@@ -104,6 +104,7 @@ public class Character implements Storable, TraitedTileOccupier {
    * @return boolean
    */
   public boolean pickUp(Wearable what) {
+    //done
     if ((what.weight+carryingWeight(this.items)) < this.maxWeight){
       return true;
     } else {
@@ -113,6 +114,7 @@ public class Character implements Storable, TraitedTileOccupier {
 
   /*gibt das aktuelle Tragegewicht zurück*/
   private int carryingWeight  (List<Wearable> inventory){
+    //added
     int weight = 0;
     for (int x=0; x<(inventory.size()); x++){
       Wearable item = inventory.get(x);
@@ -169,6 +171,11 @@ public class Character implements Storable, TraitedTileOccupier {
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
+    if (eff.applyTo()) {
+      health += eff.health;
+      magic += eff.magic;
+      power += eff.power;
+    }
   }
 
   @Override
