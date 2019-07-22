@@ -1,15 +1,17 @@
 package de.unisaar.faphack.model;
 
-import de.unisaar.faphack.model.map.Tile;
 
 import java.util.List;
 import java.util.Set;
+
+import de.unisaar.faphack.model.effects.MultiplicativeEffect;
+import de.unisaar.faphack.model.map.Tile;
 
 /**
  * @author
  *
  */
-public class Character {
+public class Character implements Storable, TraitedTileOccupier {
 
   /**
    * I'm currently on this level
@@ -24,10 +26,12 @@ public class Character {
    * The characters inventory. The amount of items in the inventory is limited by
    * the maxWeight value of a character.
    */
-  protected List<Item> items;
+  protected List<Wearable> items;
 
   /**
    * The base health of the character, which can be modified by Modifiers.
+   *
+   * If health is zero, this character is dead!
    */
   int health = 100;
 
@@ -40,6 +44,12 @@ public class Character {
    * The base power of the character, which can be modified by Modifiers.
    */
   int power = 0;
+
+  /**
+   * This models the character's trait, i.e., how effective are the different
+   * skills of the character.
+   */
+  protected MultiplicativeEffect skills;
 
   /**
    * This might be shield / bodyarmor / etc.
@@ -87,6 +97,7 @@ public class Character {
   public void move(Tile destination) {
     // Sets new tile position
     this.tile = destination;
+    // TODO: FILL THIS
   }
 
   /**
@@ -147,6 +158,19 @@ public class Character {
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
+  }
+
+  @Override
+  public String getTrait() { return (health == 0 ? "DEAD_" : "") + role; }
+
+  @Override
+  public void marshal(MarshallingContext c) {
+    // TODO fill this
+  }
+
+  @Override
+  public void unmarshal(MarshallingContext c) {
+    // TODO fill this
   }
 
 }

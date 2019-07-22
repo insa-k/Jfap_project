@@ -2,16 +2,19 @@ package de.unisaar.faphack.model.map;
 
 import java.util.List;
 
+import de.unisaar.faphack.model.Character;
 import de.unisaar.faphack.model.Direction;
+import de.unisaar.faphack.model.MarshallingContext;
+import de.unisaar.faphack.model.Storable;
 
 /**
  * @author
  *
  */
-public class Room {
+public class Room implements Storable {
 
   /** The world this room belongs to */
-  private World w;
+  World w;
 
   /** The Characters that currently are in this room */
   private List<Character> inhabitants;
@@ -21,12 +24,17 @@ public class Room {
    */
   private Tile[][] tiles;
 
-  public Room() {
-	  // TODO: set World and Tile Array
+  public Room(){}
+
+  Room(Tile[][] tiles) { this.tiles = tiles; }
+
+  public Tile getNextTile(Tile t, Direction d) {
+    // TODO: FILL THIS
+    return null;
   }
 
-  Room(Tile[][] tiles){
-    this.tiles = tiles;
+  public Tile[][] getTiles() {
+    return tiles;
   }
 
   public Tile getNextTile(Tile t, Direction d) {
@@ -43,6 +51,18 @@ public class Room {
       catch (java.lang.ArrayIndexOutOfBoundsException e) { return null ; }
     }
     else { return null; }
+  
+  public List<Character> getInhabitants() {
+    return inhabitants;
   }
 
+  @Override
+  public void marshal(MarshallingContext c) {
+    // TODO: FILL THIS
+  }
+
+  @Override
+  public void unmarshal(MarshallingContext c) {
+    // TODO: FILL THIS
+  }
 }
