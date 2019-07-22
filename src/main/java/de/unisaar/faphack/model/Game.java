@@ -23,7 +23,7 @@ public class Game implements Storable {
    * @return boolean
    */
   public boolean move(Character whom, Direction direction) {
-    // TODO: fill this
+    // TODO: fill this (done)
 	// Get current character tile
     Tile current_position = whom.getTile();
 
@@ -56,7 +56,12 @@ public class Game implements Storable {
    * @return boolean
    */
   public boolean pickUp(Character who, Item item) {
-    // TODO: fill this
+    // TODO: fill this (done)
+    if (item istanceof Wearable){
+      if (who.pickUp(item)) {
+          return true;
+      }
+    }
     return false;
   }
 
