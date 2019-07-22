@@ -26,10 +26,6 @@ public class FloorTile extends Tile {
     trait = FLOOR;
   }
 
-  public FloorTile(int x, int y, Room room, List<Item> items) {
-    super(x, y, room, items);
-  }
-
   @Override
   public Tile willTake(Character c) {
     return this;

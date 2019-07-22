@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.unisaar.faphack.model.*;
 import de.unisaar.faphack.model.Character;
+import de.unisaar.faphack.model.Item;
 
 /**
  * @author
@@ -28,13 +29,6 @@ public abstract class Tile implements Storable, TraitOwner {
   public Tile() {
 
   }
-  
-  public Tile(int x, int y, Room room, List<Item> items) {
-    this.x = x;
-    this.y = y;
-    this.room = room;
-    this.items = items;
-  }
 
   public Tile(int x, int y, Room room){
     this.room = room;
@@ -56,6 +50,7 @@ public abstract class Tile implements Storable, TraitOwner {
    * @return the next tile in direction d
    */
   public Tile getNextTile(Direction d) {
+    // TODO: FILL THIS
     Tile t = room.getNextTile(this, d);
     return t;
   }

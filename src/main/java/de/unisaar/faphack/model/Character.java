@@ -1,6 +1,5 @@
 package de.unisaar.faphack.model;
 
-
 import java.util.List;
 import java.util.Set;
 
@@ -95,9 +94,9 @@ public class Character implements Storable, TraitedTileOccupier {
    * @return void
    */
   public void move(Tile destination) {
+    // TODO: FILL THIS
     // Sets new tile position
     this.tile = destination;
-    // TODO: FILL THIS
   }
 
   /**

@@ -23,9 +23,10 @@ public class Game implements Storable {
    * @return boolean
    */
   public boolean move(Character whom, Direction direction) {
+    // TODO: fill this
 	// Get current character tile
     Tile current_position = whom.getTile();
-    
+
     // Get destination tile
     Tile temp_destination = current_position.getNextTile(direction);
     // Movement is not possible

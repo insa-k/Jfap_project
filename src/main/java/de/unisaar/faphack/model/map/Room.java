@@ -30,14 +30,6 @@ public class Room implements Storable {
 
   public Tile getNextTile(Tile t, Direction d) {
     // TODO: FILL THIS
-    return null;
-  }
-
-  public Tile[][] getTiles() {
-    return tiles;
-  }
-
-  public Tile getNextTile(Tile t, Direction d) {
     int new_x = t.x + d.x;
     int new_y = t.y + d.y;
     // move only one tile, allows diagonal movement
@@ -51,7 +43,11 @@ public class Room implements Storable {
       catch (java.lang.ArrayIndexOutOfBoundsException e) { return null ; }
     }
     else { return null; }
-  
+
+  public Tile[][] getTiles() {
+    return tiles;
+  }
+
   public List<Character> getInhabitants() {
     return inhabitants;
   }
