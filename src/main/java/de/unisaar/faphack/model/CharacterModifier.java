@@ -36,10 +36,12 @@ public class CharacterModifier implements Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("CharacterModifier", this);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    c.read("CharacterModifier");
   }
 }
