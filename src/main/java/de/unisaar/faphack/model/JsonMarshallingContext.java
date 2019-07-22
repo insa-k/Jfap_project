@@ -98,21 +98,35 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, Storable object) {
     // TODO Auto-generated method stub
+    // Check if object is already in writecache
+    if (this.writecache.containsKey(object)) {
+      // TODO: is this the right treatment of already marshalled objects?
+      String id = this.writecache.get(object);
+      JSONObject parentJson = this.stack.getFirst();
+      parentJson.put(key, id);
+      System.out.println(key);
+      System.out.println(id);
+      return;
+    }
+    
     // Create json
     JSONObject json = new JSONObject();
     if (object == null) {
-      JSONObject parentJson = this.stack.getLast();
+      JSONObject parentJson = this.stack.getFirst();
       parentJson.put(key, "null");
       return;
     };
     
     // get ID
-    System.out.println(object);
-    System.out.println(object.getClass());
+//    System.out.println(object);
+//    System.out.println(object.getClass());
     String className = factory.getClassName(object.getClass());
     String runningID = Integer.toString(idGenerator++);
     String id = className + "@" + runningID;
     json.put("id", id);
+    
+    // Put object and id in writecache, this should be before descending into recursion
+    this.writecache.put(object, id);
     
     // Put json on stack so other Marshalling methods have access to it
     this.stack.add(json);
@@ -127,7 +141,7 @@ public class JsonMarshallingContext implements MarshallingContext {
 
     // Write new json
     // Or put new json in parent json
-    JSONObject parentJson = this.stack.getLast();
+    JSONObject parentJson = this.stack.getFirst();
     parentJson.put(key, fulljson);
     
     

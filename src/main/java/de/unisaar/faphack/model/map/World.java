@@ -21,6 +21,8 @@ public class World implements Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("game", this.g);
+    c.write("mapElements", this.mapElements);
   }
 
   @Override

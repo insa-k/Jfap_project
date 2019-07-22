@@ -60,7 +60,6 @@ public class Game implements Storable {
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
     c.write("world", this.world);
-    System.out.println(this.protagonist);
     c.write("protagonist", this.protagonist);
   }
 
