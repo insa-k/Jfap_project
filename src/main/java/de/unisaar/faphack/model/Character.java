@@ -3,13 +3,14 @@ package de.unisaar.faphack.model;
 import java.util.List;
 import java.util.Set;
 
+import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
 
 /**
  * @author
  *
  */
-public class Character {
+public class Character implements Storable, TraitedTileOccupier {
 
   /**
    * I'm currently on this level
@@ -24,10 +25,12 @@ public class Character {
    * The characters inventory. The amount of items in the inventory is limited by
    * the maxWeight value of a character.
    */
-  protected List<Item> items;
+  protected List<Wearable> items;
 
   /**
    * The base health of the character, which can be modified by Modifiers.
+   *
+   * If health is zero, this character is dead!
    */
   int health = 100;
 
@@ -40,6 +43,12 @@ public class Character {
    * The base power of the character, which can be modified by Modifiers.
    */
   int power = 0;
+
+  /**
+   * This models the character's trait, i.e., how effective are the different
+   * skills of the character.
+   */
+  protected MultiplicativeEffect skills;
 
   /**
    * This might be shield / bodyarmor / etc.
@@ -85,8 +94,7 @@ public class Character {
    * @return void
    */
   public void move(Tile destination) {
-      this.tile = destination;
-    // TODO Auto-generated method stub
+    // TODO: FILL THIS
   }
 
   /**
@@ -96,18 +104,19 @@ public class Character {
    * @return boolean
    */
   public boolean pickUp(Wearable what) {
-    if ((what.weight+carringWeight(this.items)) < this.maxWeight){
+    if ((what.weight+carryingWeight(this.items)) < this.maxWeight){
       return true;
     } else {
       return false;
     }
   }
 
-  private int carringWeight  (List<Item> inventory){
+  /*gibt das aktuelle Tragegewicht zurück*/
+  private int carryingWeight  (List<Wearable> inventory){
     int weight = 0;
     for (int x=0; x<(inventory.size()); x++){
-        Item item = inventory.get(x);
-        //weight += item.weight;
+      Wearable item = inventory.get(x);
+      weight += item.weight;
     }
 
     return weight;
@@ -160,6 +169,19 @@ public class Character {
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
+  }
+
+  @Override
+  public String getTrait() { return (health == 0 ? "DEAD_" : "") + role; }
+
+  @Override
+  public void marshal(MarshallingContext c) {
+    // TODO fill this
+  }
+
+  @Override
+  public void unmarshal(MarshallingContext c) {
+    // TODO fill this
   }
 
 }
