@@ -190,6 +190,7 @@ implements Storable, TraitedTileOccupier {
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
+    eff.applyTo(this);
   }
 
   @Override
