@@ -111,7 +111,8 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean pickUp(Wearable what) {
     // TODO please implement me!
-    return false;
+    if (this.maxWeight < what.weight + this.currentWeight){return false;}
+    return true;
   }
 
   /**
@@ -183,6 +184,11 @@ implements Storable, TraitedTileOccupier {
      * stamina, quality of different armors, possibly even in the different
      * dimensions.
      */
+    health -= eff.health;
+    magic -= eff.magic;
+    power -= eff.power;
+    activeEffects.add(eff);
+
 
   }
 

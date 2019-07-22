@@ -21,13 +21,15 @@ public class CharacterModifier implements Storable {
    * Apply the changes of this modifier to c, but only if howLong is not zero
    */
   public boolean applyTo(Character c) {
-    // TODO please implement me!
-    return false;
+    if (howLong == 0) {return false;}
+    c.applyItem(this);
+    return true;
   }
 
   public int howLong() {
     return howLong;
   }
+  //public boolean applyEffect(Character c) {}
 
   @Override
   public void marshal(MarshallingContext c) {
