@@ -28,12 +28,33 @@ public class JsonMarshallingContext implements MarshallingContext {
     file = f;
     factory = fact;
     readcache = new HashMap<String, Storable>();
-    // TODO writecache, stack
+    writecache = new IdentityHashMap<Object, String>();
+    stack = new ArrayDeque<JSONObject>();
   }
 
   @Override
   public void save(Storable s) {
     // TODO Auto-generated method stub
+    // get ID
+//    String className = factory.getClassName(s.getClass());
+//    String runningID = Integer.toString(idGenerator++);
+//    String id = className + "@" + runningID;
+    
+    // Create outer json
+    JSONObject json = new JSONObject();
+    this.stack.add(json);
+    
+    s.marshal(this);
+    JSONObject fulljson = stack.pop();
+    
+    try (FileWriter writer = new FileWriter(file)) {
+      writer.write(fulljson.toJSONString());
+      System.out.println("Successfully wrote JSON object to file...");
+      System.out.println("\nJSON Object: " + fulljson);
+    }
+    catch (Exception e) {
+      System.out.println("Exception");
+    }
   }
 
   public Storable read() {
@@ -54,7 +75,7 @@ public class JsonMarshallingContext implements MarshallingContext {
       Storable currentObj = factory.newInstance(classString);
       currentObj.unmarshal(this);
       
-      //Storable finishedObject = curr;  // TODO remove later
+      //Storable finishedObject = null;  // TODO remove later
       // Put read object in readcache
       readcache.put(currentID, currentObj);
       System.out.println(currentObj);
@@ -77,6 +98,50 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, Storable object) {
     // TODO Auto-generated method stub
+    // Create json
+    JSONObject json = new JSONObject();
+    if (object == null) {
+      JSONObject parentJson = this.stack.getLast();
+      parentJson.put(key, "null");
+      return;
+    };
+    
+    // get ID
+    System.out.println(object);
+    System.out.println(object.getClass());
+    String className = factory.getClassName(object.getClass());
+    String runningID = Integer.toString(idGenerator++);
+    String id = className + "@" + runningID;
+    json.put("id", id);
+    
+    // Put json on stack so other Marshalling methods have access to it
+    this.stack.add(json);
+    
+    // Marshall all of the children fields
+    object.marshal(this);
+    
+    // Get current jsonObject out of stack
+    JSONObject fulljson = this.stack.pop();
+    
+    System.out.println(stack);
+
+    // Write new json
+    // Or put new json in parent json
+    JSONObject parentJson = this.stack.getLast();
+    parentJson.put(key, fulljson);
+    
+    
+    
+//    try (FileWriter writer = new FileWriter(file)) {
+//      writer.write(fulljson.toJSONString());
+//      System.out.println("Successfully wrote JSON object to file...");
+//      System.out.println("\nJSON Object: " + fulljson);
+//    }
+//    catch (Exception e) {
+//      System.out.println("Exception");
+//    }
+  
+    //
 
   }
 
@@ -95,12 +160,26 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public int readInt(String key) {
     // TODO Auto-generated method stub
-    return 0;
+    JSONParser jsonParser = new JSONParser();
+    try {
+      Object object = jsonParser.parse(file.toString());
+      JSONObject jsonObject = (JSONObject) object;
+      int number = (int) jsonObject.get(key);
+      System.out.println(number);
+      return number;
+    }
+    catch (ParseException e) {
+      System.out.println("ParseException: Cannot parse given file!");
+      return 0;
+    }
   }
 
   @Override
   public void write(String key, double object) {
     // TODO Auto-generated method stub
+    if (writecache.containsKey(key)){
+      
+    }
 
   }
 
