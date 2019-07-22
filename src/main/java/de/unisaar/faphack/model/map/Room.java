@@ -43,6 +43,7 @@ public class Room implements Storable {
       catch (java.lang.ArrayIndexOutOfBoundsException e) { return null ; }
     }
     else { return null; }
+  }
 
   public Tile[][] getTiles() {
     return tiles;
