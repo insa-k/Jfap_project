@@ -54,7 +54,7 @@ public class Game implements Storable {
   public boolean pickUp(Character who, Item item) {
     // TODO please implement me!
     // TODO: fill this (done)
-    if (item istanceof Wearable){
+    if (item instanceof Wearable){
       if (who.pickUp(item)) {
           return true;
       }
