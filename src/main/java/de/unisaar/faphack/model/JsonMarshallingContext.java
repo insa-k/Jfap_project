@@ -26,6 +26,9 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   public JsonMarshallingContext(File f, StorableFactory fact) {
     file = f;
+    factory = fact;
+    readcache = new HashMap<String, Storable>();
+    // TODO writecache, stack
   }
 
   @Override
@@ -35,6 +38,39 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   public Storable read() {
     // TODO Auto-generated method stub
+    JSONParser parser = new JSONParser();
+    try
+    {
+      Reader reader = new FileReader(file);
+      Object obj = parser.parse(reader);
+      JSONObject jsonObject = (JSONObject)obj;
+
+      // Get ID
+      String currentID = (String)jsonObject.get("id");
+
+      // Get class of stored object
+      String classString = currentID.split("@")[0];  // first part of id encodes class
+      factory.toString();
+      Storable currentObj = factory.newInstance(classString);
+      currentObj.unmarshal(this);
+
+      //Storable finishedObject = curr;  // TODO remove later
+      // Put read object in readcache
+      readcache.put(currentID, currentObj);
+      System.out.println(currentObj);
+      Wearable w = (Wearable)currentObj;
+      System.out.println(w.weight);
+      return currentObj;
+    }
+    catch(FileNotFoundException fe)
+    {
+      fe.printStackTrace();
+    }
+    catch(Exception e)
+    {
+       e.printStackTrace();
+    }
+
     return null;
   }
 

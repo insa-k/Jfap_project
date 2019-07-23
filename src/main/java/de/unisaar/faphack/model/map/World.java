@@ -21,11 +21,13 @@ public class World implements Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("World", this);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    c.read("World");
   }
 
   public List<Room> getMapElements(){

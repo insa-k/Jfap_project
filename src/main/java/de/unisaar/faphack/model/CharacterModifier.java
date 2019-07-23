@@ -21,10 +21,11 @@ public class CharacterModifier implements Storable {
    * Apply the changes of this modifier to c, but only if howLong is not zero
    */
   public boolean applyTo(Character c) {
-    if (howLong == 0) {return false;}
-    c.health += health;
-    c.magic += magic;
-    c.power += power;
+    // TODO please implement me! (done?)
+    if (this.howLong() == 0) { return false; }
+    c.health += this.health;
+    c.magic += this.magic;
+    c.power += this.power;
     howLong -= 1;
     return true;
   }
@@ -36,10 +37,12 @@ public class CharacterModifier implements Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("CharacterModifier", this);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    c.read("CharacterModifier");
   }
 }

@@ -15,12 +15,23 @@ public class MoveEffect implements Effect<Character, Boolean> {
    * tries to move the character into the given direction.
    *
    * @param c the character to move
-   * @param d the dirction to move the character (max one tile)
    * @return true if successful, false otherwise
    */
   public Boolean apply(Character c) {
     // TODO: FILL THIS
-    return false;
+    // Get current character tile
+    Tile current_position = c.getTile();
+
+    // Get destination tile
+    Tile temp_destination = current_position.getNextTile(dir);
+    // Movement is not possible
+    if (temp_destination == null) { return false; }
+    // check whether movement is ok
+    Tile destination = temp_destination.willTake(c);
+    // Movement possible
+    if (destination == null) {return false; }
+    c.move(destination);
+    return true;
   }
 
 }
