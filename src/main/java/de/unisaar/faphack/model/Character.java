@@ -132,7 +132,7 @@ implements Storable, TraitedTileOccupier {
     // TODO Auto-generated method stub
   }
 
-  public Item activeWeapon() {
+  public Wearable activeWeapon() {
     return activeWeapon;
   }
 
@@ -219,7 +219,7 @@ implements Storable, TraitedTileOccupier {
    * @param item the item to be removed
    * @return <code>true</code> if the action was successful, <code>false</code> otherwise
    */
-  public boolean dropItem(Item item){
+  public boolean dropItem(Wearable item){
     // TODO please implement me!
     return false;
   }
