@@ -94,19 +94,19 @@ class CharacterTest {
     Character testObject = TestUtils.createBaseCharacter("Foo", 2, 2);
     // some poison
     CharacterModifier characterModifier = TestUtils.createCharacterModifier(-10, -15, -1, 1);
-    testObject.applyAttack(characterModifier);
+    testObject.applyItem(characterModifier);
     assertEquals(90, testObject.health);
     assertEquals( 35, testObject.magic);
     assertEquals(1, testObject.power);
     // some healing potion
     characterModifier = TestUtils.createCharacterModifier(10, 15, 1, 1);
-    testObject.applyAttack(characterModifier);
+    testObject.applyItem(characterModifier);
     assertEquals(100, testObject.health);
     assertEquals( 50, testObject.magic);
     assertEquals(2, testObject.power);
     // some food providing extra power
     characterModifier = TestUtils.createCharacterModifier(0, 0, 40, 1);
-    testObject.applyAttack(characterModifier);
+    testObject.applyItem(characterModifier);
     assertEquals(100, testObject.health);
     assertEquals( 50, testObject.magic);
     assertEquals(42, testObject.power);
