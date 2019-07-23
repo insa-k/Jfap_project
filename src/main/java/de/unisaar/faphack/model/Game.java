@@ -72,10 +72,8 @@ public class Game implements Storable {
    */
   public boolean drop(Character who, Wearable what){
     // TODO please implement me!
-    if (who.dropItem(what)){
-    who.getTile().addItem(what);
-    return true;}
-    return false;
+    return who.dropItem(what);
+
   }
 
   /**

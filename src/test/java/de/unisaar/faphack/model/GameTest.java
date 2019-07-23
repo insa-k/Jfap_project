@@ -78,4 +78,46 @@ class GameTest {
     }
     assertTrue(expected.isEmpty());
   }
+
+  @Test
+  void drop() {
+    Game game = TestUtils.createGame();
+    Room room = game.getWorld().getMapElements().get(0);
+    Character testObject = createBaseCharacter("Foo", 2, 2);
+    addCharacter(room, 1, 2, testObject);
+    Wearable item1 = createWearable(2, false);
+    Wearable item2 = createWearable(2, true);
+    placeItemsInRoom(room, 1,2,item1);
+    placeItemsInRoom(room, 1,3,item2);
+    assertTrue(game.pickUp(testObject, item1));
+    assertTrue(game.drop(testObject,item1));
+    assertFalse(game.drop(testObject,item2));
+
+  }
+
+  @Test
+  void equip() {
+    Game game = TestUtils.createGame();
+    Room room = game.getWorld().getMapElements().get(0);
+    Character testObject = createBaseCharacter("Foo", 2, 4);
+    addCharacter(room, 1, 2, testObject);
+    Wearable item1 = createWearable(2, false);
+    Wearable item2 = createWearable(2, true);
+    placeItemsInRoom(room, 1,2,item1);
+    placeItemsInRoom(room, 1,2,item2);
+    game.pickUp(testObject, item1);
+    game.pickUp(testObject,item2);
+    game.drop(testObject,item2);
+
+    assertFalse((game.equip(testObject,item2)));
+    System.out.println("here");
+    game.pickUp(testObject, item2);
+    assertTrue((game.equip(testObject,item2)));
+    System.out.println("there");
+    assertFalse(game.equip(testObject,item1));
+
+
+
+
+  }
 }

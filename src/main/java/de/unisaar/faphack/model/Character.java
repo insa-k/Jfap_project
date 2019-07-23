@@ -3,6 +3,7 @@ package de.unisaar.faphack.model;
 import de.unisaar.faphack.model.effects.ModifyingEffect;
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -120,7 +121,7 @@ implements Storable, TraitedTileOccupier {
     //done
     if (what.getTile()!=this.getTile()){return false;}
     if ((what.weight + this.getWeight()) <= this.maxWeight){
-      this.items.add(what);
+      what.pickUp(this);
       return true;
     }
     return false;
@@ -223,8 +224,19 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean dropItem(Wearable item){
     // TODO please implement me!
-    this.items.remove(item);
-    return true;
+
+    for(int i=0 ;i < this.items.size(); i++){
+
+      if(items.get(i).equals(item)){
+
+        this.items.remove(item);
+        item.drop(this.getTile());
+        return true;
+      }
+
+    }
+    return false;
+
   }
 
   /**
@@ -234,14 +246,17 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean equipItem(Wearable wearable){
     // TODO please implement me!
-    if (wearable.isWeapon) {
-      this.activeWeapon = wearable;
-      return true;
-    }
-    if (wearable.trait.equals("armor")){
-      this.armor.add(wearable);
-      return true;
-    }
+      if (items.contains(wearable)) {
+
+        if (wearable.isWeapon) {
+          this.activeWeapon = wearable;
+          return true;
+        }
+        if (wearable instanceof ) {
+          this.armor.add(wearable);
+          return true;
+        }
+      }
 
     return false;
   }
