@@ -255,7 +255,10 @@ implements Storable, TraitedTileOccupier {
     for (Item item : items) {
       // TODO: check if item is a key and the keyId matches the given one
       if (item.getTrait().equals(TraitOwner.KEY)) {
-        return true;
+        Key key = (Key) item;
+        if (key.matchedKeyId(keyId)) {
+          return true;
+        }
       }
     }
     return false;
