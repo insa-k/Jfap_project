@@ -44,8 +44,10 @@ public class JsonMarshallingContext implements MarshallingContext {
     JSONObject json = new JSONObject();
     this.stack.add(json);
     
-    s.marshal(this);
-    JSONObject fulljson = stack.pop();
+//    s.marshal(this);
+    this.write("Outer", s);
+    JSONObject wrappedjson = stack.pop();
+    JSONObject fulljson = (JSONObject)wrappedjson.get("Outer");
     
     try (FileWriter writer = new FileWriter(file)) {
       writer.write(fulljson.toJSONString());
@@ -129,7 +131,8 @@ public class JsonMarshallingContext implements MarshallingContext {
     this.writecache.put(object, id);
     
     // Put json on stack so other Marshalling methods have access to it
-    this.stack.add(json);
+    //this.stack.add(json);
+    this.stack.addFirst(json);
     
     // Marshall all of the children fields
     object.marshal(this);
@@ -143,20 +146,6 @@ public class JsonMarshallingContext implements MarshallingContext {
     // Or put new json in parent json
     JSONObject parentJson = this.stack.getFirst();
     parentJson.put(key, fulljson);
-    
-    
-    
-//    try (FileWriter writer = new FileWriter(file)) {
-//      writer.write(fulljson.toJSONString());
-//      System.out.println("Successfully wrote JSON object to file...");
-//      System.out.println("\nJSON Object: " + fulljson);
-//    }
-//    catch (Exception e) {
-//      System.out.println("Exception");
-//    }
-  
-    //
-
   }
 
   @Override
@@ -168,7 +157,8 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, int object) {
     // TODO Auto-generated method stub
-
+    JSONObject parentJson = this.stack.getFirst();
+    parentJson.put(key, object);
   }
 
   @Override
@@ -191,9 +181,9 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, double object) {
     // TODO Auto-generated method stub
-    if (writecache.containsKey(key)){
-      
-    }
+    // get current collecting json
+    JSONObject parentJson = this.stack.getFirst();
+    parentJson.put(key, object);
 
   }
 
@@ -206,7 +196,8 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, String object) {
     // TODO Auto-generated method stub
-
+    JSONObject parentJson = this.stack.getFirst();
+    parentJson.put(key, object);
   }
 
   @Override

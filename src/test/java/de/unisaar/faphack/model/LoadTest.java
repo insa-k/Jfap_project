@@ -101,4 +101,18 @@ class LoadTest {
     reader.close();
     assertEquals(orig, saved);
   }
+  
+  @Test
+  void loadWithIntegers() {
+    Wearable wearable = new Wearable();
+    wearable.weight = 5;
+    wearable.isWeapon = true;
+    File f = getTestResourceFile("", "weapon.json");
+    StorableFactory fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    MarshallingContext mc = new JsonMarshallingContext(f, fact);
+    mc.save(wearable);
+    assertTrue(f.canRead());
+    
+  }
 }
