@@ -47,12 +47,19 @@ public class Game implements Storable {
   }
 
   /**
-   * @param who
-   * @param item
-   * @return boolean
+   * Let a character pickup the given item
+   * @param who the character
+   * @param item the item to be picked up
+   * @return boolean <code>true</code> if the character managed to pickup the item, <code>false</code> otherwise
    */
   public boolean pickUp(Character who, Item item) {
     // TODO please implement me!
+    // TODO: fill this (done)
+    if ((item instanceof Wearable) && (who.pickUp((Wearable)item))){
+      item.onTile.removeItem((Wearable)item);
+      who.items.add((Wearable)item);
+      return true;
+    }
     return false;
   }
 
@@ -66,6 +73,7 @@ public class Game implements Storable {
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    c.read("Game");
   }
 
   public World getWorld() {

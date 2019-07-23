@@ -67,17 +67,17 @@ public class JsonMarshallingContext implements MarshallingContext {
       Reader reader = new FileReader(file);
       Object obj = parser.parse(reader);
       JSONObject jsonObject = (JSONObject)obj;
-      
+
       // Get ID
       String currentID = (String)jsonObject.get("id");
-      
+
       // Get class of stored object
       String classString = currentID.split("@")[0];  // first part of id encodes class
       factory.toString();
       Storable currentObj = factory.newInstance(classString);
       currentObj.unmarshal(this);
-      
-      //Storable finishedObject = null;  // TODO remove later
+
+      //Storable finishedObject = curr;  // TODO remove later
       // Put read object in readcache
       readcache.put(currentID, currentObj);
       System.out.println(currentObj);
@@ -93,7 +93,7 @@ public class JsonMarshallingContext implements MarshallingContext {
     {
        e.printStackTrace();
     }
-    
+
     return null;
   }
 
@@ -209,7 +209,26 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, Collection<? extends Storable> coll) {
     // TODO Auto-generated method stub
+    // Create List
+    JSONArray array = new JSONArray();
 
+    // Iterate over collection and get json for every Storable in it
+    for (Storable storable : coll) {
+//      System.out.println("Stack in collection loop");
+//      System.out.println(this.stack);
+      this.stack.addFirst(new JSONObject());
+      this.write("Outerloop", storable);
+//      System.out.println(this.stack);
+      JSONObject wrappedjson = stack.pop();
+      JSONObject fulljson = (JSONObject)wrappedjson.get("Outerloop");
+//      System.out.println("Json");
+//      System.out.println(fulljson);
+      array.add(fulljson);
+    }
+    // Put JSONArray into parent json
+    JSONObject parentJson = this.stack.getFirst();
+    parentJson.put(key, array);
+    
   }
 
   @Override

@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -64,6 +63,10 @@ class LoadTest {
     return true;
   }
 
+  /**
+   * Creates an instance of the TestUtils default Game which is then saved to a .json file.
+   * Finally, a game is loaded from the json file and checked for correctness of all components.
+   */
   @Test
   void saveGame() {
     Game game = createGame();
@@ -79,6 +82,13 @@ class LoadTest {
   }
 
 
+  /**
+   * Tests the load and save features by loading an item instance (sword)
+   * from a .json file and writing it back to .json. 
+   * The output .json is compared to the input .json.
+   * @throws IOException
+   * @throws ParseException
+   */
   @Test
   void loadSword() throws IOException, ParseException {
     File f = getTestResourceFile("", "sword.json");
@@ -113,6 +123,24 @@ class LoadTest {
     MarshallingContext mc = new JsonMarshallingContext(f, fact);
     mc.save(wearable);
     assertTrue(f.canRead());
+    // Read again and check values
+  }
+  
+  @Test
+  void loadWithCollections() {
+    Character c = createBaseCharacter("Foo", 0, 10);
+    Wearable item1 = createWearable(1, false);
+    Wearable item2 = createWearable(4, true);
+    c.items.add(item1);
+    c.items.add(item2);
     
+    File f = getTestResourceFile("", "character_foo.json");
+    StorableFactory fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    MarshallingContext mc = new JsonMarshallingContext(f, fact);
+    mc.save(c);
+    assertTrue(f.canRead());
+    // Read again and check values
+        
   }
 }

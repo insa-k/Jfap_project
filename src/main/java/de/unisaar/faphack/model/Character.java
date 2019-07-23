@@ -107,13 +107,21 @@ implements Storable, TraitedTileOccupier {
 
   /**
    * Pick up the given Wearable. Returns true if the action is possible.
+   * The character can only pickup an item if it is
+   * 1. on the same tile
+   * 2. the current weight of all items the character carries + the weight of the item is less then maxWeight
    *
-   * @param what
-   * @return boolean
+   * @param what the item to be picked up
+   * @return  boolean <code>true</code> if the action was successful, <code>false</code> otherwise
    */
   public boolean pickUp(Wearable what) {
-    // TODO please implement me!
-    return false;
+    // TODO please implement me! (done?)
+    //done
+    if ((what.weight + this.getWeight()) < this.maxWeight){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -161,7 +169,13 @@ implements Storable, TraitedTileOccupier {
 
   public int getWeight() {
     // TODO: implement
-    return 0;
+    //added
+    int weight = this.getWeight();
+    for (int x = 0; x < (items.size()); x++){
+      Wearable item = items.get(x);
+      weight += item.weight;
+    }
+    return weight;
   }
 
   public int levelDown() {
@@ -185,13 +199,19 @@ implements Storable, TraitedTileOccupier {
      * stamina, quality of different armors, possibly even in the different
      * dimensions.
      */
+    health -= eff.health;
+    magic -= eff.magic;
+    power -= eff.power;
+
+
 
   }
-
+  // Changed Modifier based on Effects should be specified in the Modifier to generelize and simplify
   /**
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
+    eff.applyTo(this);
   }
 
   @Override
@@ -199,7 +219,9 @@ implements Storable, TraitedTileOccupier {
 
   @Override
   public void marshal(MarshallingContext c) {
-    // TODO please implement me!
+    c.write("level", level);
+    c.write("items", items);
+    // TODO add other fields
   }
 
   @Override

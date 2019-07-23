@@ -38,18 +38,22 @@ public class FloorTile extends Tile {
   }
 
   @Override
-  public boolean pickupItem(Wearable what) {
+  public boolean removeItem(Wearable what) {
     return items.remove(what);
   }
 
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    super.marshal(c);
+    c.write("FloorTile", this);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    super.unmarshal(c);
+    c.read("FloorTile");
   }
 
 }
