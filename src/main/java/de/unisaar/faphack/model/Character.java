@@ -114,23 +114,11 @@ implements Storable, TraitedTileOccupier {
   public boolean pickUp(Wearable what) {
     // TODO please implement me! (done?)
     //done
-    if ((what.weight+carryingWeight(this.items)) < this.maxWeight){
+    if ((what.weight + this.getWeight()) < this.maxWeight){
       return true;
     } else {
       return false;
     }
-  }
-
-  /*gibt das aktuelle Tragegewicht zurück*/
-  private int carryingWeight  (List<Wearable> inventory){
-    //added
-    int weight = 0;
-    for (int x=0; x<(inventory.size()); x++){
-      Wearable item = inventory.get(x);
-      weight += item.weight;
-    }
-
-    return weight;
   }
 
   /**
@@ -178,7 +166,13 @@ implements Storable, TraitedTileOccupier {
 
   public int getWeight() {
     // TODO: implement
-    return 0;
+    //added
+    int weight = this.getWeight();
+    for (int x = 0; x < (items.size()); x++){
+      Wearable item = items.get(x);
+      weight += item.weight;
+    }
+    return weight;
   }
 
   public int levelDown() {
