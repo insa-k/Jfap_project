@@ -64,6 +64,29 @@ public class Game implements Storable {
 
   }
 
+  /**
+   * Removes an item from the given characters inventory and places it on the tile
+   * @param who the character performing the action
+   * @param what the item to be removed
+   * @return <code>true</code> if the action was successful, <code>false</code> otherwise
+   */
+  public boolean drop(Character who, Wearable what){
+    // TODO please implement me!
+    return false;
+  }
+
+  /**
+   * Equips the given Wearable as active Weapon or armor depending
+   *
+   * @param who the character performing the action
+   * @param what the item to be equipped
+   * @return <code>true</code> the action was successful, <code>false</code> otherwise
+   */
+  public boolean equip(Character who, Wearable what){
+    // TODO please implement me!
+    return false;
+  }
+
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
@@ -79,5 +102,16 @@ public class Game implements Storable {
 
   public World getWorld() {
     return world;
+  }
+
+  /** Add the game's protagonist to a random floor tile in the first room */
+  public void setProtagonist(Character prot) {
+    // TODO: fill here
+  }
+
+  /** get the game's protagonist */
+  public Character getProtagonist(Character prot) {
+    // TODO: fill here
+    return null;
   }
 }
