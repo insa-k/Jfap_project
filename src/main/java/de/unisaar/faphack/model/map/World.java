@@ -29,7 +29,8 @@ public class World implements Storable {
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
     g = c.read("g");
-    //mapElements = c.readAll("mapElements", new List());
+    mapElements = new ArrayList<Room>();
+    c.readAll("mapElements", mapElements);
   }
 
   public List<Room> getMapElements(){
