@@ -8,6 +8,9 @@ public class MoveEffect implements Effect<Character, Boolean> {
   private Direction dir;
 
   public MoveEffect(Direction d) {
+    if(d.x > 1 || d.x < -1 || d.y > 1 || d.y < -1) {
+      throw new IllegalArgumentException("IllegalArgumentException, MoveEffect only takes values -1,0,1 ");
+    }
     dir = d;
   }
 
