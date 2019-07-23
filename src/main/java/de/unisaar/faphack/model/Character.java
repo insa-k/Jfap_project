@@ -246,6 +246,21 @@ implements Storable, TraitedTileOccupier {
     return false;
   }
 
+  /**
+   * Checks if a character has a key to open a given door in his inventory
+   * @param keyId
+   * @return <code>true</code> if character has a key with given keyId in items, <code>false</code> otherwise
+   */
+  public boolean hasKey(int keyId) {
+    for (Item item : items) {
+      // TODO: check if item is a key and the keyId matches the given one
+      if (item.getTrait().equals(TraitOwner.KEY)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public String getTrait() { return (health == 0 ? "DEAD_" : "") + role; }
 
