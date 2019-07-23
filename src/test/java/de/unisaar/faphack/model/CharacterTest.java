@@ -111,4 +111,13 @@ class CharacterTest {
     assertEquals( 50, testObject.magic);
     assertEquals(42, testObject.power);
   }
+
+  @Test
+  void isDead(){
+    Character testObject = TestUtils.createBaseCharacter("cat", 2, 2);
+    CharacterModifier characterModifier = TestUtils.createCharacterModifier(-100, 0, 0, 1);
+    testObject.applyAttack(characterModifier);
+    assertTrue(testObject.getTrait().equals("DEAD_warrior"));
+  }
+
 }
