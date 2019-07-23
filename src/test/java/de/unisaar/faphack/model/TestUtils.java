@@ -52,6 +52,10 @@ public class TestUtils {
     // register the world with the game and vice versa
     modifyField(game, false, "world", world);
     modifyField(world, false, "g", game);
+
+    // add protagonist
+    addProtagonist(game, "The guy");
+
     return game;
   }
 
@@ -152,7 +156,7 @@ public class TestUtils {
    * Add the given Character to the room at the given position
    * @param room the room the character should be added to
    * @param x the x position
-   * @param y 
+   * @param y
    * @param character
    */
   public static void addCharacter(Room room, int x, int y, Character character){
@@ -370,4 +374,12 @@ public class TestUtils {
     character.armor.add(armor);
   }
 
+  /** Add a protagonist with given name to the game */
+  public static Character addProtagonist(Game game, String name){
+    Character character = new Character();
+    modifyField(game, false, "protagonist", character);
+    modifyField(character, false, "name", name);
+    modifyField(character, false, "role", character.WARRIOR);
+    return character;
+  }
 }
