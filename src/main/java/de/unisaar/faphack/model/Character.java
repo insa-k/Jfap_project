@@ -1,5 +1,6 @@
 package de.unisaar.faphack.model;
 
+import de.unisaar.faphack.model.effects.ModifyingEffect;
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
 
@@ -199,12 +200,13 @@ implements Storable, TraitedTileOccupier {
      * stamina, quality of different armors, possibly even in the different
      * dimensions.
      */
-    health -= eff.health;
-    magic -= eff.magic;
-    power -= eff.power;
+    CharacterModifier modif = eff;
 
-
-
+   for (Wearable arm : armor) {
+        Armor castArm = (Armor) arm;
+        modif = castArm.getModifyingEffect().apply(eff);
+    }
+    applyItem(modif);
   }
   // Changed Modifier based on Effects should be specified in the Modifier to generelize and simplify
   /**
