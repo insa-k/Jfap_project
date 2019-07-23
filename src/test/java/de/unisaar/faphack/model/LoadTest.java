@@ -111,4 +111,36 @@ class LoadTest {
     reader.close();
     assertEquals(orig, saved);
   }
+  
+  @Test
+  void loadWithIntegers() {
+    Wearable wearable = new Wearable();
+    wearable.weight = 5;
+    wearable.isWeapon = true;
+    File f = getTestResourceFile("", "weapon.json");
+    StorableFactory fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    MarshallingContext mc = new JsonMarshallingContext(f, fact);
+    mc.save(wearable);
+    assertTrue(f.canRead());
+    // Read again and check values
+  }
+  
+  @Test
+  void loadWithCollections() {
+    Character c = createBaseCharacter("Foo", 0, 10);
+    Wearable item1 = createWearable(1, false);
+    Wearable item2 = createWearable(4, true);
+    c.items.add(item1);
+    c.items.add(item2);
+    
+    File f = getTestResourceFile("", "character_foo.json");
+    StorableFactory fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    MarshallingContext mc = new JsonMarshallingContext(f, fact);
+    mc.save(c);
+    assertTrue(f.canRead());
+    // Read again and check values
+        
+  }
 }

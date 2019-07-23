@@ -57,7 +57,7 @@ public class Game implements Storable {
     // TODO: fill this (done)
     if ((item instanceof Wearable) && (who.pickUp((Wearable)item))){
       item.onTile.removeItem((Wearable)item);
-      who.items.add((Wearable)item);
+
       return true;
     }
     return false;
@@ -67,7 +67,8 @@ public class Game implements Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
-    c.write("Game", this);
+    c.write("world", this.world);
+    c.write("protagonist", this.protagonist);
   }
 
   @Override
