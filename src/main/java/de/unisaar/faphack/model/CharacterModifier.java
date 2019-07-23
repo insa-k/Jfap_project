@@ -22,20 +22,16 @@ public class CharacterModifier implements Storable {
    */
   public boolean applyTo(Character c) {
     if (howLong == 0) {return false;}
-    c.applyItem(this);
+    c.health += health;
+    c.magic += magic;
+    c.power += power;
+    howLong -= 1;
     return true;
   }
 
   public int howLong() {
     return howLong;
   }
-
-  public boolean applyEffect(Character c){
-    howLong -= 1;
-
-    return true;
-  }
-
 
   @Override
   public void marshal(MarshallingContext c) {

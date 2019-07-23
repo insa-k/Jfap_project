@@ -205,20 +205,16 @@ implements Storable, TraitedTileOccupier {
     health -= eff.health;
     magic -= eff.magic;
     power -= eff.power;
-    activeEffects.add(eff);
+
 
 
   }
-
+  // Changed Modifier based on Effects should be specified in the Modifier to generelize and simplify
   /**
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */
   public void applyItem(CharacterModifier eff) {
-    if (eff.applyTo(this)) {
-      health += eff.health;
-      magic += eff.magic;
-      power += eff.power;
-    }
+    eff.applyTo(this);
   }
 
   @Override
