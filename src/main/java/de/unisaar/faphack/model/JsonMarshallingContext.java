@@ -26,6 +26,9 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   public JsonMarshallingContext(File f, StorableFactory fact) {
     file = f;
+    factory = fact;
+    readcache = new HashMap<String, Storable>();
+    // TODO writecache, stack
   }
 
   @Override
@@ -35,17 +38,40 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   public Storable read() {
     // TODO Auto-generated method stub
-    JSONParser jsonParser = new JSONParser();
-    try {
-      Object storableObject = jsonParser.parse(file.toString());
-      JSONObject storableJSON = (JSONObject) storableObject;
-      // TODO: return Storable from StorableJSON
-      return null;
+    JSONParser parser = new JSONParser();
+    try
+    {
+      Reader reader = new FileReader(file);
+      Object obj = parser.parse(reader);
+      JSONObject jsonObject = (JSONObject)obj;
+
+      // Get ID
+      String currentID = (String)jsonObject.get("id");
+
+      // Get class of stored object
+      String classString = currentID.split("@")[0];  // first part of id encodes class
+      factory.toString();
+      Storable currentObj = factory.newInstance(classString);
+      currentObj.unmarshal(this);
+
+      //Storable finishedObject = curr;  // TODO remove later
+      // Put read object in readcache
+      readcache.put(currentID, currentObj);
+      System.out.println(currentObj);
+      Wearable w = (Wearable)currentObj;
+      System.out.println(w.weight);
+      return currentObj;
     }
-    catch (ParseException e) {
-      System.out.println("ParseException: Cannot parse given file!");
-      return null;
+    catch(FileNotFoundException fe)
+    {
+      fe.printStackTrace();
     }
+    catch(Exception e)
+    {
+       e.printStackTrace();
+    }
+
+    return null;
   }
 
   @Override
@@ -69,17 +95,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public int readInt(String key) {
     // TODO Auto-generated method stub
-    JSONParser jsonParser = new JSONParser();
-    try {
-      Object object = jsonParser.parse(file.toString());
-      JSONObject jsonObject = (JSONObject) object;
-      int number = (int) jsonObject.get(key);
-      return number;
-    }
-    catch (ParseException e) {
-      System.out.println("ParseException: Cannot parse given file!");
-      return 0;
-    }
+    return 0;
   }
 
   @Override
@@ -91,17 +107,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public double readDouble(String key) {
     // TODO Auto-generated method stub
-    JSONParser jsonParser = new JSONParser();
-    try {
-      Object object = jsonParser.parse(file.toString());
-      JSONObject jsonObject = (JSONObject) object;
-      double number = (double) jsonObject.get(key);
-      return number;
-    }
-    catch (ParseException e) {
-      System.out.println("ParseException: Cannot parse given file!");
-      return 0;
-    }
+    return 0;
   }
 
   @Override
@@ -113,17 +119,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public String readString(String key) {
     // TODO Auto-generated method stub
-    JSONParser jsonParser = new JSONParser();
-    try {
-      Object object = jsonParser.parse(file.toString());
-      JSONObject jsonObject = (JSONObject) object;
-      String string = (String) jsonObject.get(key);
-      return string;
-    }
-    catch (ParseException e) {
-      System.out.println("ParseException: Cannot parse given file!");
-      return null;
-    }
+    return null;
   }
 
   @Override
@@ -135,6 +131,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void readAll(String key, Collection<? extends Storable> coll) {
     // TODO Auto-generated method stub
+
   }
 
   @Override
