@@ -217,11 +217,32 @@ implements Storable, TraitedTileOccupier {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("level", level);
+    c.write("Tile", tile);
+    c.write("Items", items);
+    c.write("Health", health);
+    c.write("Magic", magic);
+    c.write("Power", power);
+    c.write("Skills", skills);
+    c.write("Armor", armor);
+    c.write("MaxWeight", maxWeight);
+    c.write("CurrentWeight", currentWeight);
+    c.write("ActiveEffects", activeEffects);
+    c.write("ActiveWeapon", activeWeapon);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    level = c.readInt("level");
+    tile = c.read("Tile");
+    items = c.read("Items");
+    health = c.readInt("Health");
+    magic = c.readInt("Magic");
+    power = c.readInt("Power");
+    skills = c.read("Skills");
+    //restliche unmarshals noch schreiben
+
   }
 
 }
