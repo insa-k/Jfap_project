@@ -57,7 +57,7 @@ public class Game implements Storable {
     // TODO: fill this (done)
     if ((item instanceof Wearable) && (who.pickUp((Wearable)item))){
       item.onTile.removeItem((Wearable)item);
-      who.items.add((Wearable)item);
+
       return true;
     }
     return false;
