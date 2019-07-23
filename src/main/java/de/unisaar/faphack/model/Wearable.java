@@ -1,5 +1,7 @@
 package de.unisaar.faphack.model;
 
+import de.unisaar.faphack.model.map.Tile;
+
 /**
  * Wearables are Items that can be carried by a Character. These include armor,
  * weapons, food, potions, key and others.
@@ -45,4 +47,11 @@ public class Wearable extends Item {
     this.isWeapon = (c.readInt("isWeapon") == 1);
   }
 
+  public void pickUp(Character c) {
+    // TODO please implement me!
+  }
+
+  public void drop(Tile t) {
+    // TODO please implement me!
+  }
 }

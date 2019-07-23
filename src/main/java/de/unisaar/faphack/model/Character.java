@@ -1,5 +1,6 @@
 package de.unisaar.faphack.model;
 
+import de.unisaar.faphack.model.effects.ModifyingEffect;
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
 import de.unisaar.faphack.model.map.Tile;
 
@@ -132,7 +133,7 @@ implements Storable, TraitedTileOccupier {
     // TODO Auto-generated method stub
   }
 
-  public Item activeWeapon() {
+  public Wearable activeWeapon() {
     return activeWeapon;
   }
 
@@ -199,12 +200,13 @@ implements Storable, TraitedTileOccupier {
      * stamina, quality of different armors, possibly even in the different
      * dimensions.
      */
-    health -= eff.health;
-    magic -= eff.magic;
-    power -= eff.power;
+    CharacterModifier modif = eff;
 
-
-
+   for (Wearable arm : armor) {
+        Armor castArm = (Armor) arm;
+        modif = castArm.getModifyingEffect().apply(eff);
+    }
+    applyItem(modif);
   }
   // Changed Modifier based on Effects should be specified in the Modifier to generelize and simplify
   /**
@@ -214,19 +216,68 @@ implements Storable, TraitedTileOccupier {
     eff.applyTo(this);
   }
 
+  /**
+   * removes the given Item from the characters inventory
+   * @param item the item to be removed
+   * @return <code>true</code> if the action was successful, <code>false</code> otherwise
+   */
+  public boolean dropItem(Wearable item){
+    // TODO please implement me!
+    this.items.remove(item);
+    return true;
+  }
+
+  /**
+   * Equips the given Wearable as active Weapon or armor depending
+   * @param wearable the item to be equipped
+   * @return <code>true</code> the action was successful, <code>false</code> otherwise
+   */
+  public boolean equipItem(Wearable wearable){
+    // TODO please implement me!
+    if (wearable.isWeapon) {
+      this.activeWeapon = wearable;
+      return true;
+    }
+    if (wearable.trait.equals("armor")){
+      this.armor.add(wearable);
+      return true;
+    }
+
+    return false;
+  }
+
   @Override
   public String getTrait() { return (health == 0 ? "DEAD_" : "") + role; }
 
   @Override
   public void marshal(MarshallingContext c) {
+    // TODO please implement me!
     c.write("level", level);
-    c.write("items", items);
-    // TODO add other fields
+    c.write("Tile", tile);
+    c.write("Items", items);
+    c.write("Health", health);
+    c.write("Magic", magic);
+    c.write("Power", power);
+    c.write("Skills", skills);
+    c.write("Armor", armor);
+    c.write("MaxWeight", maxWeight);
+    c.write("CurrentWeight", currentWeight);
+    c.write("ActiveEffects", activeEffects);
+    c.write("ActiveWeapon", activeWeapon);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    level = c.readInt("level");
+    tile = c.read("Tile");
+    items = c.read("Items");
+    health = c.readInt("Health");
+    magic = c.readInt("Magic");
+    power = c.readInt("Power");
+    skills = c.read("Skills");
+    //restliche unmarshals noch schreiben
+
   }
 
 }
