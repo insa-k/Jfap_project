@@ -219,7 +219,9 @@ implements Storable, TraitedTileOccupier {
 
   @Override
   public void marshal(MarshallingContext c) {
-    // TODO please implement me!
+    c.write("level", level);
+    c.write("items", items);
+    // TODO add other fields
   }
 
   @Override
