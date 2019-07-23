@@ -223,7 +223,8 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean dropItem(Wearable item){
     // TODO please implement me!
-    return false;
+    this.items.remove(item);
+    return true;
   }
 
   /**
@@ -233,6 +234,15 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean equipItem(Wearable wearable){
     // TODO please implement me!
+    if (wearable.isWeapon) {
+      this.activeWeapon = wearable;
+      return true;
+    }
+    if (wearable.trait.equals("armor")){
+      this.armor.add(wearable);
+      return true;
+    }
+
     return false;
   }
 

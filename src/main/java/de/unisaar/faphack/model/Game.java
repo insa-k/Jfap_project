@@ -72,6 +72,9 @@ public class Game implements Storable {
    */
   public boolean drop(Character who, Wearable what){
     // TODO please implement me!
+    if (who.dropItem(what)){
+    who.getTile().addItem(what);
+    return true;}
     return false;
   }
 
@@ -84,7 +87,8 @@ public class Game implements Storable {
    */
   public boolean equip(Character who, Wearable what){
     // TODO please implement me!
-    return false;
+    return who.equipItem(what);
+
   }
 
   @Override
@@ -107,11 +111,7 @@ public class Game implements Storable {
   /** Add the game's protagonist to a random floor tile in the first room */
   public void setProtagonist(Character prot) {
     // TODO: fill here
+    this.protagonist = prot;
   }
 
-  /** get the game's protagonist */
-  public Character getProtagonist(Character prot) {
-    // TODO: fill here
-    return null;
-  }
 }
