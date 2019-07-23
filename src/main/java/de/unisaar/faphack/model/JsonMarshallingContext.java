@@ -289,8 +289,22 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void readAll(String key, Collection<? extends Storable> coll) {
-    // TODO Auto-generated method stub
+    // Get collection of jsons
+    JSONObject currentjson = stack.getFirst();
+    Object rawValue = currentjson.get(key);
+    Collection<JSONObject> value = (Collection<JSONObject>)rawValue;
+    // Loop over jsons in collection and decode them
+    for (JSONObject innerjson: value) {
+      stack.addFirst(innerjson);
+      coll.add(helperReadJSONArray());
+      stack.pop();
+      
+    }
+  }
 
+  public <T extends Storable> T helperReadJSONArray(){
+  T storable = (T)read("dummy_key");
+  return storable;
   }
 
   @Override
