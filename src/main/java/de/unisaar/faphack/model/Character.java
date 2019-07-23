@@ -58,7 +58,7 @@ implements Storable, TraitedTileOccupier {
   /**
    * This might be shield / bodyarmor / etc.
    */
-  protected List<Wearable> armor = new ArrayList<>();
+  protected List<Armor> armor = new ArrayList<>();
 
   /**
    * The maximal amount of weight the character can carry. The sum of the weight
@@ -252,8 +252,8 @@ implements Storable, TraitedTileOccupier {
           this.activeWeapon = wearable;
           return true;
         }
-        if (wearable instanceof ) {
-          this.armor.add(wearable);
+        if (wearable instanceof Armor) {
+          this.armor.add((Armor)wearable);
           return true;
         }
       }
