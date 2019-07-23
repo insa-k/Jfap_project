@@ -36,7 +36,7 @@ public class Room implements Storable {
     int y_movement = t.y - new_y;
     // possible differences: -1, 1, 0 for x and y movement
     // if movement is possible return new tile else return null
-    if(x_movement <= 1 || x_movement >= -1 || y_movement <= 1 || y_movement >= -1) {
+    if(x_movement <= 1 && x_movement >= -1 && y_movement <= 1 && y_movement >= -1) {
       // check if new tile is still in the room (array)
       try { return this.tiles[new_x][new_y]; }
       catch (java.lang.ArrayIndexOutOfBoundsException e) { return null ; }
