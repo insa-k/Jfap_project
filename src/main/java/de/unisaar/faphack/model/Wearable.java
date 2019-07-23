@@ -40,7 +40,8 @@ public class Wearable extends Item {
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
     super.unmarshal(c);
-    c.read("Wearable");
+    this.weight = c.readInt("weight");
+    this.isWeapon = (c.readInt("isWeapon") == 1);
   }
 
 }

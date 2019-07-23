@@ -30,10 +30,16 @@ implements Storable, TraitedTileOccupier {
 
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
+    c.write("onTile", onTile);
+    c.write("trait", trait);
+    c.write("effect", effect);
   }
 
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
+    onTile = c.read("onTile");
+    trait = c.readString("trait");
+    effect = c.read("effect");
   }
 
   @Override
