@@ -309,7 +309,22 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, Tile[][] coll) {
-    // TODO Auto-generated method stub
+    // Saves Board as a 2-dimensional Json-Array
+    JSONObject parentJson = this.stack.getFirst();
+    JSONArray json_board = new JSONArray();
+    // Loop over Board
+    for (Tile[] row: coll) {
+      JSONArray json_row = new JSONArray();
+      for (Tile tile: row) {
+        stack.addFirst(new JSONObject());
+        write("dummy_key", tile);
+        JSONObject tile_json = stack.pop();
+        // Get tiles out of tile json
+        json_row.add(tile_json.get("dummy_key"));
+      }
+      json_board.add(json_row);
+    }
+    parentJson.put(key, json_board);
 
   }
 
