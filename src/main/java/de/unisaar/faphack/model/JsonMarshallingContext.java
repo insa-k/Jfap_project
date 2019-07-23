@@ -84,9 +84,9 @@ public class JsonMarshallingContext implements MarshallingContext {
       stack.pop();
       System.out.format("current object");
       System.out.println(currentObj);
-      Wearable w = (Wearable)currentObj;
-      System.out.println("Test fields: Trait");
-      System.out.println(w.trait);
+//      Wearable w = (Wearable)currentObj;
+//      System.out.println("Test fields: Trait");
+//      System.out.println(w.trait);
       return currentObj;
     }
     catch(FileNotFoundException fe)
@@ -121,7 +121,7 @@ public class JsonMarshallingContext implements MarshallingContext {
     JSONObject json = new JSONObject();
     if (object == null) {
       JSONObject parentJson = this.stack.getFirst();
-      parentJson.put(key, "null");
+      parentJson.put(key, null);
       return;
     };
     
