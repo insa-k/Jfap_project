@@ -73,16 +73,20 @@ public class JsonMarshallingContext implements MarshallingContext {
 
       // Get class of stored object
       String classString = currentID.split("@")[0];  // first part of id encodes class
-      factory.toString();
       Storable currentObj = factory.newInstance(classString);
-      currentObj.unmarshal(this);
-
-      //Storable finishedObject = curr;  // TODO remove later
+      // Put first in cache, then marshal
       // Put read object in readcache
       readcache.put(currentID, currentObj);
+      stack.add(jsonObject);
+      currentObj.unmarshal(this);
+      System.out.println("Stack");
+      System.out.println(stack);
+      stack.pop();
+      System.out.format("current object");
       System.out.println(currentObj);
       Wearable w = (Wearable)currentObj;
-      System.out.println(w.weight);
+      System.out.println("Test fields: Trait");
+      System.out.println(w.trait);
       return currentObj;
     }
     catch(FileNotFoundException fe)
@@ -100,6 +104,8 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public void write(String key, Storable object) {
     // TODO Auto-generated method stub
+    // TODO Clear stack in the beginning
+
     // Check if object is already in writecache
     if (this.writecache.containsKey(object)) {
       // TODO: is this the right treatment of already marshalled objects?
@@ -164,18 +170,26 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public int readInt(String key) {
     // TODO Auto-generated method stub
-    JSONParser jsonParser = new JSONParser();
-    try {
-      Object object = jsonParser.parse(file.toString());
-      JSONObject jsonObject = (JSONObject) object;
-      int number = (int) jsonObject.get(key);
-      System.out.println(number);
-      return number;
-    }
-    catch (ParseException e) {
-      System.out.println("ParseException: Cannot parse given file!");
-      return 0;
-    }
+    // start old
+//    JSONParser jsonParser = new JSONParser();
+//    try {
+//      Object object = jsonParser.parse(file.toString());
+//      JSONObject jsonObject = (JSONObject) object;
+//      int number = (int) jsonObject.get(key);
+//      System.out.println(number);
+//      return number;
+//    }
+//    catch (ParseException e) {
+//      System.out.println("ParseException: Cannot parse given file!");
+//      return 0;
+//    }
+    // end old
+    JSONObject currentjson = stack.getLast();
+    // Following recommended in https://st,ackoverflow.com/questions/17164014/java-lang-classcastexception-java-lang-long-cannot-be-cast-to-java-lang-integer
+    Object rawValue = currentjson.get(key);
+    int value = ((Long)rawValue).intValue();
+    // TODO: catch if the object cannot be cast to int
+    return value;
   }
 
   @Override
@@ -190,7 +204,10 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public double readDouble(String key) {
     // TODO Auto-generated method stub
-    return 0;
+    JSONObject currentjson = stack.getLast();
+    Object rawValue = currentjson.get(key);
+    float value = (Float)rawValue;
+    return value;
   }
 
   @Override
@@ -203,7 +220,10 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public String readString(String key) {
     // TODO Auto-generated method stub
-    return null;
+    JSONObject currentjson = stack.getLast();
+    Object rawValue = currentjson.get(key);
+    String value = (String)rawValue;
+    return value;
   }
 
   @Override
