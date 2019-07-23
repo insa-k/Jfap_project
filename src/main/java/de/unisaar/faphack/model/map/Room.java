@@ -55,12 +55,18 @@ public class Room implements Storable {
   @Override
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
-    c.write("Tile", this.getTiles());
+    c.write("w", w);
+    c.write("inhabitants", inhabitants);
+    //c.write("tiles", tiles);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
-    c.read("Tile");
+    w = c.read("w");
+    inhabitants = new ArrayList<Character>();
+    c.readAll("inhabitants", inhabitants);
+    //tiles = c.readBoard("tiles");
+    
   }
 }

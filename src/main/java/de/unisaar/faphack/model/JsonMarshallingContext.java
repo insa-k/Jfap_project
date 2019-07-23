@@ -84,9 +84,9 @@ public class JsonMarshallingContext implements MarshallingContext {
       stack.pop();
       System.out.format("current object");
       System.out.println(currentObj);
-      Wearable w = (Wearable)currentObj;
-      System.out.println("Test fields: Trait");
-      System.out.println(w.trait);
+//      Wearable w = (Wearable)currentObj;
+//      System.out.println("Test fields: Trait");
+//      System.out.println(w.trait);
       return currentObj;
     }
     catch(FileNotFoundException fe)
@@ -121,7 +121,7 @@ public class JsonMarshallingContext implements MarshallingContext {
     JSONObject json = new JSONObject();
     if (object == null) {
       JSONObject parentJson = this.stack.getFirst();
-      parentJson.put(key, "null");
+      parentJson.put(key, null);
       return;
     };
     
@@ -157,7 +157,39 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public <T extends Storable> T read(String key) {
     // TODO Auto-generated method stub
-    return null;
+    JSONObject currentjson = stack.getLast();
+    Object rawValue = currentjson.get(key);
+    System.out.println(key);
+    // Check if Storable is null
+    if (rawValue == null) {
+      return null;
+    }
+    // Check if Storable is already in cache
+    if (readcache.containsKey(key)) {
+      // TODO: check whether cast is ok
+      T currentObj = (T)readcache.get(key);
+    }
+    JSONObject jsonObject = (JSONObject)rawValue;
+    System.out.println("Json object in storable");
+    System.out.println(jsonObject);
+
+    // get id
+    String currentID = (String)jsonObject.get("id");
+
+    // Get class of stored object
+    String classString = currentID.split("@")[0];  // first part of id encodes class
+    T currentObj = (T)factory.newInstance(classString);
+    // Put first in cache, then marshal
+    // Put read object in readcache
+    readcache.put(currentID, currentObj);
+    stack.addFirst(jsonObject);
+    System.out.println("In Storable before unmarshal");
+    System.out.println(stack);
+    currentObj.unmarshal(this);
+    System.out.println(stack);
+    // remove json from stack after object is finished
+    stack.pop();
+    return currentObj;
   }
 
   @Override
@@ -184,8 +216,12 @@ public class JsonMarshallingContext implements MarshallingContext {
 //      return 0;
 //    }
     // end old
-    JSONObject currentjson = stack.getLast();
+    JSONObject currentjson = stack.getFirst();
     // Following recommended in https://st,ackoverflow.com/questions/17164014/java-lang-classcastexception-java-lang-long-cannot-be-cast-to-java-lang-integer
+    System.out.println("in int");
+    System.out.println(stack);
+    System.out.println(key);
+    System.out.println(currentjson);
     Object rawValue = currentjson.get(key);
     int value = ((Long)rawValue).intValue();
     // TODO: catch if the object cannot be cast to int
@@ -204,7 +240,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public double readDouble(String key) {
     // TODO Auto-generated method stub
-    JSONObject currentjson = stack.getLast();
+    JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     float value = (Float)rawValue;
     return value;
@@ -220,7 +256,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public String readString(String key) {
     // TODO Auto-generated method stub
-    JSONObject currentjson = stack.getLast();
+    JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     String value = (String)rawValue;
     return value;
@@ -253,8 +289,22 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void readAll(String key, Collection<? extends Storable> coll) {
-    // TODO Auto-generated method stub
+    // Get collection of jsons
+    JSONObject currentjson = stack.getFirst();
+    Object rawValue = currentjson.get(key);
+    Collection<JSONObject> value = (Collection<JSONObject>)rawValue;
+    // Loop over jsons in collection and decode them
+    for (JSONObject innerjson: value) {
+      stack.addFirst(innerjson);
+      coll.add(helperReadJSONArray());
+      stack.pop();
+      
+    }
+  }
 
+  public <T extends Storable> T helperReadJSONArray(){
+  T storable = (T)read("dummy_key");
+  return storable;
   }
 
   @Override

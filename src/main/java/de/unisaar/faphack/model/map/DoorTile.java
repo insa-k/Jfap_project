@@ -32,9 +32,27 @@ public class DoorTile extends WallTile implements Storable, Observable<DoorTile>
     super(x, y, room);
   }
 
+  /**
+   * 1. An character should not be able to enter a DoorTile if it is locked
+   * 2. however the door can be opened by force if the character has enough power.
+   * 3. And, if the door is open the characte can simply use it to get to another room
+   */
   @Override
   public Tile willTake(Character c) {
-    // TODO please implement me!
+    // TODO please implement me! (done)
+    if (!(locked) || c.hasKey(keyId) || (destructible > 0 && c.getPower() >= destructible)) {
+      locked = false;
+      open = true;
+      Hallway hallway = getHallway();
+      // check if current tile is fromTile in Hallway and return the toTile
+      if(hallway.from().equals(this)) {
+        return hallway.to();
+      }
+      // otherwise return the "fromTile" --> in this case the actual toTile
+      else {
+        return hallway.from();
+      }
+    }
     return null;
   }
 

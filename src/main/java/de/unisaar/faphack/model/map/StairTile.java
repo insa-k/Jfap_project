@@ -31,8 +31,35 @@ public class StairTile extends Tile {
    */
   @Override
   public Tile willTake(Character c) {
-    // TODO please implement me!
-   return null;
+    // TODO please implement me! (done?)
+
+    Stair stair = getStair();
+    // check if stair is only oneWay
+    if (stair.onlyDown()) {
+      // so: check if current tile is the fromTile
+      if (stair.from().equals(this)) {
+        // the character goes a level down
+        c.levelDown();
+        // then the character can only go fromTile -> toTile
+        return stair.to();
+      }
+      // otherwise you can't go this way and it should return null
+      return null;
+    }
+    // stair goes both ways
+    if (stair.from().equals(this)) {
+      c.levelDown();
+      return stair.to();
+    }
+    // current tile is "toTile"
+    c.levelUp();
+    return stair.from();
+
+//    TODO: check how traps work
+//    // check if trap is masked as stairs
+//    if( !(hasTrap().equals(null))) {
+//      StairTile trapDoor = hasTrap().trapDoor;
+
   }
 
   /** Return non-null if this is a trap */
