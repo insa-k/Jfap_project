@@ -112,8 +112,25 @@ implements Storable, TraitedTileOccupier {
    * @return boolean
    */
   public boolean pickUp(Wearable what) {
-    // TODO please implement me!
-    return false;
+    // TODO please implement me! (done?)
+    //done
+    if ((what.weight+carryingWeight(this.items)) < this.maxWeight){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /*gibt das aktuelle Tragegewicht zurück*/
+  private int carryingWeight  (List<Wearable> inventory){
+    //added
+    int weight = 0;
+    for (int x=0; x<(inventory.size()); x++){
+      Wearable item = inventory.get(x);
+      weight += item.weight;
+    }
+
+    return weight;
   }
 
   /**
@@ -185,9 +202,14 @@ implements Storable, TraitedTileOccupier {
      * stamina, quality of different armors, possibly even in the different
      * dimensions.
      */
+    health -= eff.health;
+    magic -= eff.magic;
+    power -= eff.power;
+
+
 
   }
-
+  // Changed Modifier based on Effects should be specified in the Modifier to generelize and simplify
   /**
    * Apply the effects of, e.g., a poisoning, eating something, etc.
    */

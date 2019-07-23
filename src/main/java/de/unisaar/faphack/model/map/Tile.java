@@ -89,7 +89,7 @@ public abstract class Tile implements Storable, TraitOwner {
     c.read("Tile");
   }
 
-  public boolean pickupItem(Wearable what){
+  public boolean removeItem(Wearable what){
     return false;
   }
 }
