@@ -47,9 +47,10 @@ public class Game implements Storable {
   }
 
   /**
-   * @param who
-   * @param item
-   * @return boolean
+   * Let a character pickup the given item
+   * @param who the character
+   * @param item the item to be picked up
+   * @return boolean <code>true</code> if the character managed to pickup the item, <code>false</code> otherwise
    */
   public boolean pickUp(Character who, Item item) {
     // TODO please implement me!

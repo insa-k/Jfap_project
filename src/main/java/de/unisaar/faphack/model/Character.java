@@ -107,9 +107,12 @@ implements Storable, TraitedTileOccupier {
 
   /**
    * Pick up the given Wearable. Returns true if the action is possible.
+   * The character can only pickup an item if it is
+   * 1. on the same tile
+   * 2. the current weight of all items the character carries + the weight of the item is less then maxWeight
    *
-   * @param what
-   * @return boolean
+   * @param what the item to be picked up
+   * @return  boolean <code>true</code> if the action was successful, <code>false</code> otherwise
    */
   public boolean pickUp(Wearable what) {
     // TODO please implement me! (done?)
