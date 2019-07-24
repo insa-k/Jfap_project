@@ -122,6 +122,7 @@ implements Storable, TraitedTileOccupier {
     if (what.getTile()!=this.getTile()){return false;}
     if ((what.weight + this.getWeight()) <= this.maxWeight){
       what.pickUp(this);
+      items.add(what);
       return true;
     }
     return false;
@@ -232,9 +233,9 @@ implements Storable, TraitedTileOccupier {
     for(int i=0 ;i < this.items.size(); i++){
 
       if(items.get(i).equals(item)){
-
         this.items.remove(item);
         item.drop(this.getTile());
+        this.getTile().addItem(item);
         return true;
       }
 
@@ -251,17 +252,15 @@ implements Storable, TraitedTileOccupier {
   public boolean equipItem(Wearable wearable){
     // TODO please implement me!
       if (items.contains(wearable)) {
-
+        if (wearable instanceof Armor) {
+          armor.add((Armor)wearable);
+          return true;
+        }
         if (wearable.isWeapon) {
           this.activeWeapon = wearable;
           return true;
         }
-        if (wearable instanceof Armor) {
-          this.armor.add((Armor)wearable);
-          return true;
-        }
       }
-
     return false;
   }
 

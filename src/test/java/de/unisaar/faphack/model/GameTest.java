@@ -103,20 +103,22 @@ class GameTest {
     addCharacter(room, 1, 2, testObject);
     Wearable item1 = createWearable(2, false);
     Wearable item2 = createWearable(2, true);
-    Wearable item3 = createArmor(4,0,0);
+    Armor item3 = createArmor(4,0,0);
+    Armor item4 = createArmor(4,0,0);
     placeItemsInRoom(room, 1,2,item1);
     placeItemsInRoom(room, 1,2,item2);
     game.pickUp(testObject, item1);
     game.pickUp(testObject,item2);
-    game.pickUp(testObject,item3);
+    assertTrue(game.pickUp(testObject,item4));
     // Test Weapons and clatter
     game.drop(testObject,item2);
     assertFalse((game.equip(testObject,item2)));
     game.pickUp(testObject, item2);
     assertTrue((game.equip(testObject,item2)));
     assertFalse(game.equip(testObject,item1));
-    // Test Armor
-    //assertTrue((game.equip(testObject,item3)));
+    // TODO Test Armor
+
+    assertTrue(game.equip(testObject,item4));
 
 
 

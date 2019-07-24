@@ -49,13 +49,11 @@ public class Wearable extends Item {
 
   public void pickUp(Character c) {
     // TODO please implement me!
-    c.items.add(this);
     this.character = c;
   }
 
   public void drop(Tile t) {
     // TODO please implement me
-    t.addItem(this);
     this.character = null;
   }
 }
