@@ -88,8 +88,8 @@ public class TestUtils {
     connectStairTiles(stairTile1, stairTile2,false);
 
     // add two characters to the world
-    Character c1 = createBaseCharacter("Foo", 0, 10);
-    Character c2 = createBaseCharacter("Bar", 0, 10);
+    Character c1 = createBaseCharacter("Foo", 10, 10);
+    Character c2 = createBaseCharacter("Bar", 10, 10);
     addCharacter(room1, 2,2,c1);
     addCharacter(room3, 1,4,c2);
 
