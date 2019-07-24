@@ -103,6 +103,7 @@ class GameTest {
   void rest() {
     Game game = createGame();
     Character character = game.getWorld().getMapElements().get(0).getInhabitants().get(0);
+    System.out.println(character.power);
     game.rest(character);
     assertEquals(15, character.getPower());
   }
