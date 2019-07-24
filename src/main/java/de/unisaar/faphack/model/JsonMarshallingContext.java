@@ -28,7 +28,7 @@ public class JsonMarshallingContext implements MarshallingContext {
     file = f;
     factory = fact;
     readcache = new HashMap<String, Storable>();
-    writecache = new IdentityHashMap<Object, String>();
+    writecache = new IdentityHashMap<Storable, String>();
     stack = new ArrayDeque<JSONObject>();
   }
 
@@ -270,12 +270,16 @@ public class JsonMarshallingContext implements MarshallingContext {
 
     // Iterate over collection and get json for every Storable in it
     for (Storable storable : coll) {
+      System.out.println("Array in collection loop");
+      System.out.println(array);
       System.out.println("Stack in collection loop");
       System.out.println(this.stack);
       this.stack.addFirst(new JSONObject());
       this.write("Outerloop", storable);
       System.out.println(this.stack);
       JSONObject wrappedjson = stack.pop();
+      System.out.println("wrappedjson");
+      System.out.println(wrappedjson);
       JSONObject fulljson = (JSONObject)wrappedjson.get("Outerloop");
 //      System.out.println("Json");
 //      System.out.println(fulljson);
