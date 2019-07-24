@@ -37,9 +37,7 @@ public class Game implements Storable {
     // TODO please implement me!
     if (whom.power == 0){
       rest(whom);
-      return true;
     }
-
     return false;
   }
 
