@@ -288,7 +288,6 @@ implements Storable, TraitedTileOccupier {
 
   @Override
   public void marshal(MarshallingContext c) {
-    // TODO please implement me!
     c.write("level", level);
     c.write("Tile", tile);
     c.write("Items", items);
@@ -300,12 +299,13 @@ implements Storable, TraitedTileOccupier {
     c.write("MaxWeight", maxWeight);
     c.write("CurrentWeight", currentWeight);
     c.write("ActiveEffects", activeEffects);
+    c.write("Name", name);
+    c.write("Role", role);
     c.write("ActiveWeapon", activeWeapon);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
-    // TODO please implement me!
     level = c.readInt("level");
     tile = c.read("Tile");
     items = c.read("Items");
@@ -313,8 +313,14 @@ implements Storable, TraitedTileOccupier {
     magic = c.readInt("Magic");
     power = c.readInt("Power");
     skills = c.read("Skills");
-    //restliche unmarshals noch schreiben
-
+    armor = c.read("Armor");
+    maxWeight = c.readInt("MaxWeight");
+    currentWeight = c.readInt("CurrentWeight");
+    activeEffects = new HashSet<>();
+    c.readAll("ActiveEffects", activeEffects);
+    name = c.read("Name");
+    role = c.readString("Role");
+    activeWeapon = c.read("ActiveWeapon");
   }
 
   public void rest() {

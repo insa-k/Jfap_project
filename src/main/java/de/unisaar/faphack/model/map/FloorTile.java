@@ -60,14 +60,15 @@ public class FloorTile extends Tile {
   public void marshal(MarshallingContext c) {
     // TODO please implement me!
     super.marshal(c);
-    c.write("FloorTile", this);
+    c.write("items", items);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
     super.unmarshal(c);
-    c.read("FloorTile");
+    items = new ArrayList<Item>();
+    c.readAll("items", items);
   }
 
   /**
