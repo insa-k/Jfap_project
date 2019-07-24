@@ -94,9 +94,10 @@ public class TestUtils {
     addCharacter(room3, 1,4,c2);
 
     // create a bunch of items and place them in the world
-    Item sword = createWearable(2, true);
+    Wearable sword = createWearable(2, true);
     modifyField(sword, false, "character",  c1);
     modifyField(c1, false, "activeWeapon", sword );
+    c1.items.add(sword);
     Item fountain = new Fixtures();
     List<Item> onTile = new ArrayList<>();
     onTile.add(fountain);
@@ -370,7 +371,10 @@ public class TestUtils {
    * @param armor the armor, and
    * @param character the character that will carry it
    */
-  public static void equipArmor(Armor armor, Character character){character.armor.add(armor);}
+  public static void equipArmor(Armor armor, Character character){
+    character.armor.add(armor);
+    character.items.add(armor);
+  }
 
   /** Add a protagonist with given name to the game */
   public static Character addProtagonist(Game game, String name){
