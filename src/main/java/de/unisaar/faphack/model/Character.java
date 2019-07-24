@@ -121,10 +121,10 @@ implements Storable, TraitedTileOccupier {
     //done
     if (what.getTile()!=this.getTile()){return false;}
     if ((what.weight + this.getWeight()) <= this.maxWeight){
-      what.pickUp(this);
-      items.add(what);
-      return true;
-    }
+        what.pickUp(this);
+        items.add(what);
+        return true;
+      }
     return false;
   }
 

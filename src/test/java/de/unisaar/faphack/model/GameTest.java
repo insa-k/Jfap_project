@@ -3,6 +3,7 @@ package de.unisaar.faphack.model;
 import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
 import org.junit.jupiter.api.Test;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,11 +26,18 @@ class GameTest {
     Character testObject = createBaseCharacter("Foo", 2, 2);
     addCharacter(room, 1, 2, testObject);
     Wearable item1 = createWearable(2, false);
+
     placeItemsInRoom(room, 1,2,item1);
     assertTrue(game.pickUp(testObject, item1));
     // the item should have been removed from the tile and moved into the inventory of the character
     assertTrue(testObject.items.contains(item1));
     assertTrue(!room.getTiles()[1][2].onTile().contains(item1));
+
+    //test armor
+    Wearable armor1 = createArmor(2,0,0);
+    placeItemsInRoom(room, 1,2,armor1);
+    System.out.println(armor1.onTile);
+    assertTrue(game.pickUp(testObject,armor1));
 
   }
 
