@@ -1,5 +1,7 @@
 package de.unisaar.faphack.model.map;
 
+import java.util.List;
+
 import de.unisaar.faphack.model.Character;
 import de.unisaar.faphack.model.Direction;
 import de.unisaar.faphack.model.MarshallingContext;
@@ -27,6 +29,18 @@ public class Room implements Storable {
 
   public Room(){}
 
+  /**
+   /**
+   * This method returns a tile determined by the specified tile <code> t </ code> and the <code> direction </ code> d.
+   * If the path between the specified tile and the derived tile is blocked by a wall,
+   * the wall tile is returned.
+   *
+   * HINT: use the computeDDA to compute the path
+   *
+   * @param t the start tile
+   * @param d the direction to follow
+   * @return
+   */
   public Tile getNextTile(Tile t, Direction d) {
     // TODO please implement me!
     int new_x = t.x + d.x;
@@ -44,6 +58,33 @@ public class Room implements Storable {
     else { return null; }
   }
 
+
+  private List<Tile> computeDDA(Tile t, Direction d){
+    List<Tile> path = new ArrayList<>();
+
+    // Calculate number of steps
+    int steps = Math.abs(d.x) > Math.abs(d.y) ? Math.abs(d.x) : Math.abs(d.y);
+
+
+    // Calculate increments
+    double xIncrement = d.x / (float) steps;
+    double yIncrement = d.y / (float) steps;
+
+    // Compute points
+    double x = t.x;
+    double y = t.y;
+    path.add(tiles[(int) x][((int) y)]);
+    for (int i = 0; i < steps; i++) {
+      x += xIncrement;
+      y += yIncrement;
+      if (x >= tiles.length || y >= tiles[0].length)
+        break;
+      Tile tile = tiles[(int) Math.round(x)][(int) Math.round(y)];
+      path.add(tile);
+    }
+    return path;
+  }
+
   public Tile[][] getTiles() {
     return tiles;
   }
@@ -57,7 +98,7 @@ public class Room implements Storable {
     // TODO please implement me!
     c.write("w", w);
     c.write("inhabitants", inhabitants);
-    //c.write("tiles", tiles);
+    c.write("tiles", tiles);
   }
 
   @Override
@@ -66,7 +107,6 @@ public class Room implements Storable {
     w = c.read("w");
     inhabitants = new ArrayList<Character>();
     c.readAll("inhabitants", inhabitants);
-    //tiles = c.readBoard("tiles");
-    
+    tiles = c.readBoard("tiles");
   }
 }

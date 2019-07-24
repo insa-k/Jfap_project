@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.unisaar.faphack.dirtyhacks.StorableRegistrator;
+import de.unisaar.faphack.model.map.Room;
 
 class LoadTest {
 
@@ -142,5 +143,21 @@ class LoadTest {
     assertTrue(f.canRead());
     // Read again and check values
         
+  }
+  
+  @Test
+  void loadBoard() {
+    Room room1 = createSimpleRoom(3,2,  1);
+    File f = getTestResourceFile("", "room_1.json");
+    StorableFactory fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    MarshallingContext mc = new JsonMarshallingContext(f, fact);
+    mc.save(room1);
+    assertTrue(f.canRead());
+    // Read again and check values
+    fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    mc = new JsonMarshallingContext(f, fact);
+    Room room2 = (Room)mc.read();
   }
 }

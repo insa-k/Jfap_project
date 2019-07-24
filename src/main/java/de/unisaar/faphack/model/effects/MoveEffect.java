@@ -15,8 +15,6 @@ public class MoveEffect implements Effect<Character, Boolean> {
   }
 
   /**
-   * tries to move the character into the given direction.
-   *
    * @param c the character to move
    * @return true if successful, false otherwise
    */

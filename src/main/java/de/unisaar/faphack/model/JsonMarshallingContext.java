@@ -309,14 +309,57 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, Tile[][] coll) {
-    // TODO Auto-generated method stub
+    // Saves Board as a 2-dimensional Json-Array
+    JSONObject parentJson = this.stack.getFirst();
+    JSONArray json_board = new JSONArray();
+    // Loop over Board
+    for (Tile[] row: coll) {
+      JSONArray json_row = new JSONArray();
+      for (Tile tile: row) {
+        stack.addFirst(new JSONObject());
+        write("dummy_key", tile);
+        JSONObject tile_json = stack.pop();
+        // Get tiles out of tile json
+        json_row.add(tile_json.get("dummy_key"));
+      }
+      json_board.add(json_row);
+    }
+    parentJson.put(key, json_board);
 
   }
 
   @Override
   public Tile[][] readBoard(String key) {
     // TODO Auto-generated method stub
-    return null;
+    JSONObject currentjson = stack.getFirst();
+    Object rawValue = currentjson.get(key);
+    JSONArray json_board = (JSONArray)rawValue;
+    int x = json_board.size();
+    int y = ((JSONArray)json_board.get(0)).size();
+    Tile[][] board = new Tile[x][y];
+    for (int i = 0; i < x; i++) {
+      JSONArray json_row = (JSONArray)json_board.get(i);
+//      Tile[] tile_row = new Tile[y];
+//      stack.addFirst(new JSONObject());
+//      readAll("dummy_key", tile_row);
+//      System.out.println(tile_row);
+//      board[i] = tile_row;
+      
+      for (int j = 0; j < y; j++) {
+        JSONObject json_field = (JSONObject)json_row.get(j);
+        JSONObject wrapper = new JSONObject();
+        wrapper.put("outer_key", json_field);
+        stack.addFirst(wrapper);
+        Tile tile = read("dummy_key");
+        stack.pop();
+        board[i][j] = tile;
+
+      }
+//    for (Object raw_json_row: json_board) {
+//      JSONArray json_row = (JSONArray)raw_json_row;
+//      for 
+    }
+    return board;
   }
 
 }

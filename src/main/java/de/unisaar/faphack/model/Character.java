@@ -2,6 +2,7 @@ package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.effects.ModifyingEffect;
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
+import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ implements Storable, TraitedTileOccupier {
   /**
    * This might be shield / bodyarmor / etc.
    */
-  protected List<Wearable> armor = new ArrayList<>();
+  protected List<Armor> armor = new ArrayList<>();
 
   /**
    * The maximal amount of weight the character can carry. The sum of the weight
@@ -120,7 +121,7 @@ implements Storable, TraitedTileOccupier {
     //done
     if (what.getTile()!=this.getTile()){return false;}
     if ((what.weight + this.getWeight()) <= this.maxWeight){
-      this.items.add(what);
+      what.pickUp(this);
       return true;
     }
     return false;
@@ -139,6 +140,10 @@ implements Storable, TraitedTileOccupier {
 
   public Tile getTile() {
     return tile;
+  }
+
+  public Room getRoom() {
+    return tile.getRoom();
   }
 
   public int getHealth() {
@@ -223,8 +228,19 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean dropItem(Wearable item){
     // TODO please implement me!
-    this.items.remove(item);
-    return true;
+
+    for(int i=0 ;i < this.items.size(); i++){
+
+      if(items.get(i).equals(item)){
+
+        this.items.remove(item);
+        item.drop(this.getTile());
+        return true;
+      }
+
+    }
+    return false;
+
   }
 
   /**
@@ -234,14 +250,17 @@ implements Storable, TraitedTileOccupier {
    */
   public boolean equipItem(Wearable wearable){
     // TODO please implement me!
-    if (wearable.isWeapon) {
-      this.activeWeapon = wearable;
-      return true;
-    }
-    if (wearable.trait.equals("armor")){
-      this.armor.add(wearable);
-      return true;
-    }
+      if (items.contains(wearable)) {
+
+        if (wearable.isWeapon) {
+          this.activeWeapon = wearable;
+          return true;
+        }
+        if (wearable instanceof Armor) {
+          this.armor.add((Armor)wearable);
+          return true;
+        }
+      }
 
     return false;
   }
@@ -255,7 +274,10 @@ implements Storable, TraitedTileOccupier {
     for (Item item : items) {
       // TODO: check if item is a key and the keyId matches the given one
       if (item.getTrait().equals(TraitOwner.KEY)) {
-        return true;
+        Key key = (Key) item;
+        if (key.matchedKeyId(keyId)) {
+          return true;
+        }
       }
     }
     return false;
@@ -295,4 +317,7 @@ implements Storable, TraitedTileOccupier {
 
   }
 
+  public void rest() {
+    this.power += 5;
+  }
 }
