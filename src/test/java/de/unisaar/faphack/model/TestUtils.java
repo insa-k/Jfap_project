@@ -32,6 +32,16 @@ public class TestUtils {
     }
   }
 
+  private static void modifySuperSuperField(Object modifiedObject, String fieldname, Object value){
+    try {
+      Field f = modifiedObject.getClass().getSuperclass().getSuperclass().getDeclaredField(fieldname);
+      f.setAccessible(true);
+      f.set(modifiedObject, value);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   public static String getTestResource(String subdir, String name) {
     return getTestResourceFile(subdir, name).getPath();
   }
@@ -88,15 +98,16 @@ public class TestUtils {
     connectStairTiles(stairTile1, stairTile2,false);
 
     // add two characters to the world
-    Character c1 = createBaseCharacter("Foo", 0, 10);
-    Character c2 = createBaseCharacter("Bar", 0, 10);
+    Character c1 = createBaseCharacter("Foo", 10, 10);
+    Character c2 = createBaseCharacter("Bar", 10, 10);
     addCharacter(room1, 2,2,c1);
     addCharacter(room3, 1,4,c2);
 
     // create a bunch of items and place them in the world
-    Item sword = createWearable(2, true);
+    Wearable sword = createWearable(2, true);
     modifyField(sword, false, "character",  c1);
     modifyField(c1, false, "activeWeapon", sword );
+    c1.items.add(sword);
     Item fountain = new Fixtures();
     List<Item> onTile = new ArrayList<>();
     onTile.add(fountain);
@@ -230,15 +241,18 @@ public class TestUtils {
 
   /**
    * Place items at the specified position in the room
-   * @param room the room in which the items should appear
    * @param x the x coordinate
+   * @param room the room in which the items should appear
    * @param y the y coordinate
    * @param items the items to be added
    */
-  public static void placeItemsInRoom(Room room, int x, int y, Wearable... items) {
-    List<Wearable> onTile = new ArrayList<>(Arrays.asList(items));
-    for(Wearable wearable : onTile){
-      modifyField(wearable, true, "onTile", room.getTiles()[x][y]);
+  public static void placeItemsInRoom(Room room, int x, int y, Item... items) {
+    List<Item> onTile = new ArrayList<>(Arrays.asList(items));
+    for(Item wearable : onTile){
+      if (wearable instanceof  Armor)
+        modifySuperSuperField(wearable, "onTile", room.getTiles()[x][y]);
+      else
+        modifyField(wearable, true, "onTile", room.getTiles()[x][y]);
     }
     modifyField(room.getTiles()[x][y], false, "items", onTile);
   }
@@ -370,7 +384,10 @@ public class TestUtils {
    * @param armor the armor, and
    * @param character the character that will carry it
    */
-  public static void equipArmor(Armor armor, Character character){character.armor.add(armor);}
+  public static void equipArmor(Armor armor, Character character){
+    character.armor.add(armor);
+    character.items.add(armor);
+  }
 
   /** Add a protagonist with given name to the game */
   public static Character addProtagonist(Game game, String name){

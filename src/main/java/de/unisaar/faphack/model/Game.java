@@ -1,10 +1,12 @@
 package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.effects.MoveEffect;
+import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
 import de.unisaar.faphack.model.map.World;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author
@@ -27,25 +29,20 @@ public class Game implements Storable {
 
   /**
    * tries to move the character into the given direction.
-   * If the character's power == 0 only moves with direction (0,0) are possible, i.e. the character is resting
-   * and its power increases by 5
    * @param whom
    * @param direction
    * @return boolean
    */
   public boolean move(Character whom, Direction direction) {
-    // TODO please implement me!
-    if (whom.power == 0){
-      rest(whom);
-    }
-    return false;
+    // TODO please implement me! (done)
+    return new MoveEffect(direction).apply(whom);
   }
 
   /**
    * The character rests, i.e. it moves with direction (0,0) and its power increases by 5
   */
   public boolean rest(Character whom){
-    // TODO please implement me!
+    // TODO please implement me! (done)
     whom.rest();
     return true;
   }
@@ -71,12 +68,8 @@ public class Game implements Storable {
   public boolean pickUp(Character who, Item item) {
     // TODO please implement me!
     // TODO: fill this (done)
-    if ((item instanceof Wearable) && (who.pickUp((Wearable)item))){
-      item.onTile.removeItem((Wearable)item);
+    return (item instanceof Wearable && who.pickUp((Wearable)item));
 
-      return true;
-    }
-    return false;
 
   }
 
@@ -124,7 +117,22 @@ public class Game implements Storable {
   /** Add the game's protagonist to a random floor tile in the first room */
   public void setProtagonist(Character prot) {
     // TODO: fill here
-    this.protagonist = prot;
+    protagonist = prot;
+    List<Room> mapElements = world.getMapElements();
+    Room firstRoom = mapElements.get(0);
+    // get random occupiable tile in first room and place protagonist there
+    Tile[][] tiles = firstRoom.getTiles();
+    // create random tiles until the randomTile can be occupied by protagonist
+    // TODO: not sure about using a while true loop here...
+    while (true) {
+      int randomX = new Random().nextInt(tiles.length);
+      int randomY = new Random().nextInt(tiles[randomX].length);
+      Tile randomTile = tiles[randomX][randomY];
+      if ( !(randomTile.willTake(prot).equals(null)) ) {
+        protagonist.tile = randomTile;
+        return;
+      }
+    }
   }
 
 }
