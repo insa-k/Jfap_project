@@ -155,5 +155,9 @@ class LoadTest {
     mc.save(room1);
     assertTrue(f.canRead());
     // Read again and check values
+    fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    mc = new JsonMarshallingContext(f, fact);
+    Room room2 = (Room)mc.read();
   }
 }
