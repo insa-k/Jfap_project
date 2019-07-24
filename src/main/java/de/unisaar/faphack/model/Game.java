@@ -37,8 +37,9 @@ public class Game implements Storable {
     // TODO please implement me!
     if (whom.power == 0){
       rest(whom);
+      return false;
     }
-    return false;
+    return new MoveEffect(direction).apply(whom);
   }
 
   /**
@@ -107,14 +108,12 @@ public class Game implements Storable {
 
   @Override
   public void marshal(MarshallingContext c) {
-    // TODO please implement me!
     c.write("world", this.world);
     c.write("protagonist", this.protagonist);
   }
 
   @Override
   public void unmarshal(MarshallingContext c) {
-    // TODO please implement me!
     world = c.read("world");
     protagonist = c.read("protagonist");
   }
