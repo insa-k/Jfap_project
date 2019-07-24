@@ -1,10 +1,12 @@
 package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.effects.MoveEffect;
+import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
 import de.unisaar.faphack.model.map.World;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author
@@ -121,7 +123,22 @@ public class Game implements Storable {
   /** Add the game's protagonist to a random floor tile in the first room */
   public void setProtagonist(Character prot) {
     // TODO: fill here
-    this.protagonist = prot;
+    protagonist = prot;
+    List<Room> mapElements = world.getMapElements();
+    Room firstRoom = mapElements.get(0);
+    // get random occupiable tile in first room and place protagonist there
+    Tile[][] tiles = firstRoom.getTiles();
+    // create random tiles until the randomTile can be occupied by protagonist
+    // TODO: not sure about using a while true loop here...
+    while (true) {
+      int randomX = new Random().nextInt(tiles.length);
+      int randomY = new Random().nextInt(tiles[randomX].length);
+      Tile randomTile = tiles[randomX][randomY];
+      if ( !(randomTile.willTake(prot).equals(null)) ) {
+        protagonist.tile = randomTile;
+        return;
+      }
+    }
   }
 
 }
