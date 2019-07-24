@@ -253,7 +253,7 @@ implements Storable, TraitedTileOccupier {
           return true;
         }
         if (wearable instanceof Armor) {
-          this.armor.add((Armor)wearable);
+          armor.add((Armor)wearable);
           return true;
         }
       }

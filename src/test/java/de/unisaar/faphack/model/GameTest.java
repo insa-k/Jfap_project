@@ -116,7 +116,7 @@ class GameTest {
     assertTrue((game.equip(testObject,item2)));
     assertFalse(game.equip(testObject,item1));
     // TODO Test Armor
-    //assertTrue((game.equip(testObject,item3)));
+    assertTrue((game.equip(testObject,item3)));
 
 
 
