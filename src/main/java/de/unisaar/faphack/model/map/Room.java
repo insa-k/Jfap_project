@@ -98,7 +98,7 @@ public class Room implements Storable {
     // TODO please implement me!
     c.write("w", w);
     c.write("inhabitants", inhabitants);
-    //c.write("tiles", tiles);
+    c.write("tiles", tiles);
   }
 
   @Override
@@ -107,7 +107,6 @@ public class Room implements Storable {
     w = c.read("w");
     inhabitants = new ArrayList<Character>();
     c.readAll("inhabitants", inhabitants);
-    //tiles = c.readBoard("tiles");
-    
+    tiles = c.readBoard("tiles");
   }
 }
