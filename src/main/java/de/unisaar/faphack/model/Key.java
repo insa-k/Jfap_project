@@ -15,4 +15,14 @@ public class Key extends Item {
     //TODO
     return false;
   }
+  
+  public void marshal(MarshallingContext c) {
+    super.marshal(c);
+    c.write("keyId", keyId);
+  };
+  
+  public void unmarshal(MarshallingContext c) {
+    super.unmarshal(c);
+    keyId = c.readInt("keyId");
+  };
 }
