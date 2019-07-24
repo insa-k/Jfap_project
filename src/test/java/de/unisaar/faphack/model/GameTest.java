@@ -3,7 +3,6 @@ package de.unisaar.faphack.model;
 import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
 import org.junit.jupiter.api.Test;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +33,9 @@ class GameTest {
     assertTrue(!room.getTiles()[1][2].onTile().contains(item1));
     assertEquals(testObject, item1.character);
     assertNull(item1.onTile);
+    Fixtures fountain = new Fixtures();
+    placeItemsInRoom(room, 1,2, fountain);
+    assertFalse(game.pickUp(testObject, fountain));
 
     //test armor
     Wearable armor1 = createArmor(2,0,0);
@@ -52,6 +54,7 @@ class GameTest {
     Game game = TestUtils.createGame();
     Room room = game.getWorld().getMapElements().get(0);
     Character testObject = room.getInhabitants().get(0);
+    System.out.println(testObject.name);
     assertTrue(game.move(testObject, new Direction(-1, 0)));
     assertTrue(game.move(testObject, new Direction(0, -1)));
     assertTrue(game.move(testObject, new Direction(1, 0)));
