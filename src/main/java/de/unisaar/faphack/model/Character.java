@@ -2,8 +2,8 @@ package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.effects.ModifyingEffect;
 import de.unisaar.faphack.model.effects.MultiplicativeEffect;
+import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -142,6 +142,10 @@ implements Storable, TraitedTileOccupier {
     return tile;
   }
 
+  public Room getRoom() {
+    return tile.getRoom();
+  }
+
   public int getHealth() {
     return health;
   }
@@ -270,7 +274,10 @@ implements Storable, TraitedTileOccupier {
     for (Item item : items) {
       // TODO: check if item is a key and the keyId matches the given one
       if (item.getTrait().equals(TraitOwner.KEY)) {
-        return true;
+        Key key = (Key) item;
+        if (key.matchedKeyId(keyId)) {
+          return true;
+        }
       }
     }
     return false;
@@ -310,4 +317,7 @@ implements Storable, TraitedTileOccupier {
 
   }
 
+  public void rest() {
+    this.power += 5;
+  }
 }
