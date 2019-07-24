@@ -120,7 +120,9 @@ implements Storable, TraitedTileOccupier {
     // TODO please implement me! (done?)
     //done
     if (what.getTile()!=this.getTile()){return false;}
+
     if ((what.weight + this.getWeight()) <= this.maxWeight){
+      what.getTile().removeItem(what);
       what.pickUp(this);
       items.add(what);
       return true;
@@ -230,20 +232,18 @@ implements Storable, TraitedTileOccupier {
   public boolean dropItem(Wearable item){
     // TODO please implement me!
 
-    for(int i=0 ;i < this.items.size(); i++){
+    if (!items.contains(item)){return false;}
 
-      if(items.get(i).equals(item)){
-        this.items.remove(item);
-        item.drop(this.getTile());
-        this.getTile().addItem(item);
-        return true;
-      }
+    if (item == this.activeWeapon){activeWeapon = null; }
 
-    }
-    return false;
+    if (armor.contains(item)){armor.remove(item);}
 
+    this.items.remove(item);
+    item.drop(this.getTile());
+    this.getTile().addItem(item);
+
+    return true;
   }
-
   /**
    * Equips the given Wearable as active Weapon or armor depending
    * @param wearable the item to be equipped

@@ -74,12 +74,8 @@ public class Game implements Storable {
   public boolean pickUp(Character who, Item item) {
     // TODO please implement me!
     // TODO: fill this (done)
-    if ((item instanceof Wearable) && (who.pickUp((Wearable)item))){
-      item.onTile.removeItem((Wearable)item);
+    return (item instanceof Wearable && who.pickUp((Wearable)item));
 
-      return true;
-    }
-    return false;
 
   }
 
