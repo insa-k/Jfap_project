@@ -40,7 +40,6 @@ class GameTest {
     //test armor
     Wearable armor1 = createArmor(2,0,0);
     placeItemsInRoom(room, 1,2,armor1);
-    System.out.println(armor1.onTile);
     assertTrue(game.pickUp(testObject,armor1));
 
   }
@@ -54,7 +53,6 @@ class GameTest {
     Game game = TestUtils.createGame();
     Room room = game.getWorld().getMapElements().get(0);
     Character testObject = room.getInhabitants().get(0);
-    System.out.println(testObject.name);
     assertTrue(game.move(testObject, new Direction(-1, 0)));
     assertTrue(game.move(testObject, new Direction(0, -1)));
     assertTrue(game.move(testObject, new Direction(1, 0)));
@@ -106,7 +104,7 @@ class GameTest {
     Game game = createGame();
     Character character = game.getWorld().getMapElements().get(0).getInhabitants().get(0);
     game.rest(character);
-    assertEquals(7, character.getPower());
+    assertEquals(15, character.getPower());
   }
 
   @Test
