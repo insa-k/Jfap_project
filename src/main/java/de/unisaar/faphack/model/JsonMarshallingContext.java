@@ -84,9 +84,6 @@ public class JsonMarshallingContext implements MarshallingContext {
       stack.pop();
       System.out.format("current object");
       System.out.println(currentObj);
-//      Wearable w = (Wearable)currentObj;
-//      System.out.println("Test fields: Trait");
-//      System.out.println(w.trait);
       return currentObj;
     }
     catch(FileNotFoundException fe)
@@ -112,8 +109,8 @@ public class JsonMarshallingContext implements MarshallingContext {
       String id = this.writecache.get(object);
       JSONObject parentJson = this.stack.getFirst();
       parentJson.put(key, id);
-      System.out.println(key);
-      System.out.println(id);
+//      System.out.println(key);
+//      System.out.println(id);
       return;
     }
     
@@ -134,6 +131,7 @@ public class JsonMarshallingContext implements MarshallingContext {
     json.put("id", id);
     
     // Put object and id in writecache, this should be before descending into recursion
+//    String cacheValue = "{id: " + id + "}";
     this.writecache.put(object, id);
     
     // Put json on stack so other Marshalling methods have access to it
@@ -157,9 +155,9 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public <T extends Storable> T read(String key) {
     // TODO Auto-generated method stub
-    JSONObject currentjson = stack.getLast();
+    JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
-    System.out.println(key);
+//    System.out.println(key);
     // Check if Storable is null
     if (rawValue == null) {
       return null;
@@ -168,10 +166,19 @@ public class JsonMarshallingContext implements MarshallingContext {
     if (readcache.containsKey(key)) {
       // TODO: check whether cast is ok
       T currentObj = (T)readcache.get(key);
+      return currentObj;
     }
+    if (rawValue instanceof String) {
+      if (readcache.containsKey(rawValue)) {
+        T currentObj = (T)readcache.get(rawValue);
+        return currentObj;
+      }
+    }
+    System.out.println(readcache);
+    System.out.println(rawValue);
     JSONObject jsonObject = (JSONObject)rawValue;
-    System.out.println("Json object in storable");
-    System.out.println(jsonObject);
+//    System.out.println("Json object in storable");
+//    System.out.println(jsonObject);
 
     // get id
     String currentID = (String)jsonObject.get("id");
@@ -184,11 +191,13 @@ public class JsonMarshallingContext implements MarshallingContext {
     readcache.put(currentID, currentObj);
     stack.addFirst(jsonObject);
     System.out.println("In Storable before unmarshal");
-    System.out.println(stack);
+//    System.out.println(stack);
+    System.out.println(readcache);
     currentObj.unmarshal(this);
-    System.out.println(stack);
+//    System.out.println(stack);
     // remove json from stack after object is finished
     stack.pop();
+    System.out.println("currentObj");
     return currentObj;
   }
 
@@ -201,27 +210,8 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public int readInt(String key) {
-    // TODO Auto-generated method stub
-    // start old
-//    JSONParser jsonParser = new JSONParser();
-//    try {
-//      Object object = jsonParser.parse(file.toString());
-//      JSONObject jsonObject = (JSONObject) object;
-//      int number = (int) jsonObject.get(key);
-//      System.out.println(number);
-//      return number;
-//    }
-//    catch (ParseException e) {
-//      System.out.println("ParseException: Cannot parse given file!");
-//      return 0;
-//    }
-    // end old
     JSONObject currentjson = stack.getFirst();
     // Following recommended in https://st,ackoverflow.com/questions/17164014/java-lang-classcastexception-java-lang-long-cannot-be-cast-to-java-lang-integer
-    System.out.println("in int");
-    System.out.println(stack);
-    System.out.println(key);
-    System.out.println(currentjson);
     Object rawValue = currentjson.get(key);
     int value = ((Long)rawValue).intValue();
     // TODO: catch if the object cannot be cast to int
@@ -270,20 +260,29 @@ public class JsonMarshallingContext implements MarshallingContext {
 
     // Iterate over collection and get json for every Storable in it
     for (Storable storable : coll) {
-      System.out.println("Array in collection loop");
-      System.out.println(array);
-      System.out.println("Stack in collection loop");
-      System.out.println(this.stack);
+//      System.out.println("Array in collection loop");
+//      System.out.println(array);
+//      System.out.println("Stack in collection loop");
+//      System.out.println(this.stack);
       this.stack.addFirst(new JSONObject());
       this.write("Outerloop", storable);
-      System.out.println(this.stack);
+//      System.out.println(this.stack);
       JSONObject wrappedjson = stack.pop();
-      System.out.println("wrappedjson");
-      System.out.println(wrappedjson);
-      JSONObject fulljson = (JSONObject)wrappedjson.get("Outerloop");
+//      System.out.println("wrappedjson");
+//      System.out.println(wrappedjson);
+      // Check if Object was read right now or whether it is in the cache
+      Object newElement = wrappedjson.get("Outerloop");
+      if (newElement instanceof String) {
+        String fulljson = (String)newElement;
+        array.add(fulljson);
+      }
+      else {
+        JSONObject fulljson = (JSONObject)newElement;
+        array.add(fulljson);
+      }
 //      System.out.println("Json");
 //      System.out.println(fulljson);
-      array.add(fulljson);
+      
     }
     // Put JSONArray into parent json
     JSONObject parentJson = this.stack.getFirst();
@@ -297,18 +296,41 @@ public class JsonMarshallingContext implements MarshallingContext {
     JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     Collection<JSONObject> value = (Collection<JSONObject>)rawValue;
+    System.out.println("value");
+    System.out.println(value);
     // Loop over jsons in collection and decode them
-    for (JSONObject innerjson: value) {
-      stack.addFirst(innerjson);
-      coll.add(helperReadJSONArray());
-      stack.pop();
-      
+    for (Object element: value) {
+      coll.add(helperReadJSONArray(element));
     }
+    return;
   }
 
-  public <T extends Storable> T helperReadJSONArray(){
-  T storable = (T)read("dummy_key");
-  return storable;
+  public <T extends Storable> T helperReadJSONArray(Object element){
+    if (element instanceof String) {
+      // was already read
+      System.out.println("element is String");
+      System.out.println(element);
+      System.out.println(readcache);
+      T storable = (T)readcache.get(element);
+      System.out.println(storable);
+      return storable;
+    }
+    if (element instanceof JSONObject){
+      System.out.println("element is JSONObject");
+      System.out.println(element);
+      JSONObject innerjson = (JSONObject)element;
+      JSONObject wrapper = new JSONObject();
+      wrapper.put("outer_key", innerjson);
+      stack.addFirst(wrapper);
+      System.out.println(stack);
+      T storable = (T)read("outer_key");
+      stack.pop();
+      System.out.println(storable);
+      return storable;
+    }
+    System.out.println("element has wrong type");
+    System.out.println(element);
+    return null;
   }
 
   @Override
@@ -344,13 +366,21 @@ public class JsonMarshallingContext implements MarshallingContext {
     for (int i = 0; i < x; i++) {
       JSONArray json_row = (JSONArray)json_board.get(i);
       for (int j = 0; j < y; j++) {
-        JSONObject json_field = (JSONObject)json_row.get(j);
-        JSONObject wrapper = new JSONObject();
-        wrapper.put("outer_key", json_field);
-        stack.addFirst(wrapper);
-        Tile tile = read("dummy_key");
-        stack.pop();
-        board[i][j] = tile;
+        Object field = json_row.get(j);
+        if (field instanceof String) {
+          // this tile is already in cache
+          Tile tile = (Tile)readcache.get((String)field);
+          board[i][j] = tile;
+        }
+        if (field instanceof JSONObject) {
+          JSONObject json_field = (JSONObject)field;
+          JSONObject wrapper = new JSONObject();
+          wrapper.put("outer_key", json_field);
+          stack.addFirst(wrapper);
+          Tile tile = read("outer_key");
+          stack.pop();
+          board[i][j] = tile;
+        }
       }
     }
     return board;

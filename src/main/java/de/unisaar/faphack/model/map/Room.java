@@ -105,5 +105,8 @@ public class Room implements Storable {
     inhabitants = new ArrayList<Character>();
     c.readAll("inhabitants", inhabitants);
     tiles = c.readBoard("tiles");
+    System.out.println("tiles");
+    System.out.println(tiles);
+    int k = 0;
   }
 }
