@@ -38,6 +38,9 @@ public class FloorTile extends Tile {
    */
   @Override
   public Tile willTake(Character c) {
+    if (isOccupied()) {
+      return null;
+    }
     return this;
   }
 
