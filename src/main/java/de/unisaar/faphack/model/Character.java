@@ -1,13 +1,13 @@
 package de.unisaar.faphack.model;
 
-import de.unisaar.faphack.model.effects.ModifyingEffect;
-import de.unisaar.faphack.model.effects.MultiplicativeEffect;
-import de.unisaar.faphack.model.map.Tile;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import de.unisaar.faphack.model.effects.MultiplicativeEffect;
+import de.unisaar.faphack.model.map.Room;
+import de.unisaar.faphack.model.map.Tile;
 
 /**
  * @author
@@ -57,7 +57,7 @@ implements Storable, TraitedTileOccupier {
   /**
    * This might be shield / bodyarmor / etc.
    */
-  protected List<Wearable> armor = new ArrayList<>();
+  protected List<Armor> armor = new ArrayList<>();
 
   /**
    * The maximal amount of weight the character can carry. The sum of the weight
@@ -139,6 +139,10 @@ implements Storable, TraitedTileOccupier {
 
   public Tile getTile() {
     return tile;
+  }
+
+  public Room getRoom() {
+    return tile.getRoom();
   }
 
   public int getHealth() {
@@ -295,4 +299,7 @@ implements Storable, TraitedTileOccupier {
 
   }
 
+  public void rest() {
+    this.power += 5;
+  }
 }
