@@ -146,7 +146,7 @@ public class TestUtils {
     // place a door
     if (roomNo < 3) result[0][y/2] = new DoorTile(0, y/2 , room);
     // place a stair tile right in the center of the room
-    if (roomNo > 0) result[x/2][y/2] = new StairTile(x/2, y/2, room);
+    if (roomNo > 1) result[x/2][y/2] = new StairTile(x/2, y/2, room);
     return result;
   }
 
@@ -370,9 +370,7 @@ public class TestUtils {
    * @param armor the armor, and
    * @param character the character that will carry it
    */
-  public static void equipArmor(Armor armor, Character character){
-    character.armor.add(armor);
-  }
+  public static void equipArmor(Armor armor, Character character){character.armor.add(armor);}
 
   /** Add a protagonist with given name to the game */
   public static Character addProtagonist(Game game, String name){
