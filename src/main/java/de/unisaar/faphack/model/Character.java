@@ -252,14 +252,15 @@ implements Storable, TraitedTileOccupier {
     // TODO please implement me!
       if (items.contains(wearable)) {
 
-        if (wearable.isWeapon) {
-          this.activeWeapon = wearable;
-          return true;
-        }
         if (wearable instanceof Armor) {
           armor.add((Armor)wearable);
           return true;
         }
+        if (wearable.isWeapon) {
+          this.activeWeapon = wearable;
+          return true;
+        }
+
       }
 
     return false;
