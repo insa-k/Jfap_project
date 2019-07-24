@@ -37,8 +37,9 @@ public class Game implements Storable {
     // TODO please implement me!
     if (whom.power == 0){
       rest(whom);
+      return false;
     }
-    return false;
+    return new MoveEffect(direction).apply(whom);
   }
 
   /**
