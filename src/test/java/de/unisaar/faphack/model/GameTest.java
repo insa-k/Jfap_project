@@ -37,8 +37,7 @@ class GameTest {
 
     //test armor
     Wearable armor1 = createArmor(2,0,0);
-    placeItemsInRoom(room, 1,2,armor1);
-    System.out.println(armor1.onTile);
+    placeItemsInRoom(room,1,2,armor1);
     assertTrue(game.pickUp(testObject,armor1));
 
   }
