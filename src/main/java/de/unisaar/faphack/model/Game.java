@@ -34,11 +34,7 @@ public class Game implements Storable {
    * @return boolean
    */
   public boolean move(Character whom, Direction direction) {
-    // TODO please implement me!
-    if (whom.power == 0){
-      rest(whom);
-      return false;
-    }
+    // TODO please implement me! (done)
     return new MoveEffect(direction).apply(whom);
   }
 
@@ -46,7 +42,7 @@ public class Game implements Storable {
    * The character rests, i.e. it moves with direction (0,0) and its power increases by 5
   */
   public boolean rest(Character whom){
-    // TODO please implement me!
+    // TODO please implement me! (done)
     whom.rest();
     return true;
   }

@@ -15,17 +15,20 @@ public class MoveEffect implements Effect<Character, Boolean> {
   }
 
   /**
-   * tries to move the character into the given direction.
-   * If the character's power == 0 only moves with direction (0,0) are possible,
-   * i.e. the character is resting and its power increases by 5
+   * If the character's power == 0 only moves with direction (0,0) are possible, i.e. the character is resting
+   * and its power increases by 5
    * @param c the character to move
    * @return true if successful, false otherwise
    */
   public Boolean apply(Character c) {
     // TODO: FILL THIS
+    // case: character rests
+    if (c.getPower() == 0){
+      c.rest();
+      return false;
+    }
     // Get current character tile
     Tile current_position = c.getTile();
-
     // Get destination tile
     Tile temp_destination = current_position.getNextTile(dir);
     // Movement is not possible
