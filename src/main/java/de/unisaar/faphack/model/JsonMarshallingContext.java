@@ -16,7 +16,7 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   private static StorableFactory factory;
 
-  private IdentityHashMap<Object, String> writecache;
+  private IdentityHashMap<Storable, String> writecache;
 
   private Deque<JSONObject> stack;
 
@@ -339,12 +339,6 @@ public class JsonMarshallingContext implements MarshallingContext {
     Tile[][] board = new Tile[x][y];
     for (int i = 0; i < x; i++) {
       JSONArray json_row = (JSONArray)json_board.get(i);
-//      Tile[] tile_row = new Tile[y];
-//      stack.addFirst(new JSONObject());
-//      readAll("dummy_key", tile_row);
-//      System.out.println(tile_row);
-//      board[i] = tile_row;
-      
       for (int j = 0; j < y; j++) {
         JSONObject json_field = (JSONObject)json_row.get(j);
         JSONObject wrapper = new JSONObject();
@@ -353,11 +347,7 @@ public class JsonMarshallingContext implements MarshallingContext {
         Tile tile = read("dummy_key");
         stack.pop();
         board[i][j] = tile;
-
       }
-//    for (Object raw_json_row: json_board) {
-//      JSONArray json_row = (JSONArray)raw_json_row;
-//      for 
     }
     return board;
   }

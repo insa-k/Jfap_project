@@ -84,14 +84,18 @@ public abstract class Tile implements Storable, TraitOwner {
   }
 
   public void marshal(MarshallingContext c) {
-    //c.write("Tile", this);
     c.write("x", x);
-    // TODO add the other fields
+    c.write("y", y);
+    c.write("room", room);
+    c.write("trait", trait);
   }
 
   public void unmarshal(MarshallingContext c) {
     // TODO please implement me!
-    //c.read("Tile");
+    x = c.readInt("x");
+    y = c.readInt("y");
+    room = c.read("room");
+    trait = c.read("trait");
   }
 
   public boolean removeItem(Wearable what) {

@@ -12,7 +12,7 @@ import de.unisaar.faphack.model.MarshallingContext;
  */
 public class Trap extends Fixtures {
   /**
-   * Traps might also be placed on StairTiles. In this case, the stair is mas ked
+   * Traps might also be placed on StairTiles. In this case, the stair is masked
    * by the Trap and thus not visible for the character, i.e. a trap door.
    *
    */
@@ -23,14 +23,12 @@ public class Trap extends Fixtures {
   }
 
   public void marshal(MarshallingContext c) {
-    // TODO please implement me!
     super.marshal(c);
-    c.write("Trap", this);
+    c.write("trapDoor", trapDoor);
   }
 
   public void unmarshal(MarshallingContext c) {
-    // TODO please implement me!
     super.unmarshal(c);
-    c.read("Trap");
+    trapDoor = c.read("trapDoor");
   }
 }
