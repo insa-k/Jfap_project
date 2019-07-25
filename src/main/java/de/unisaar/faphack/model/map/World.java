@@ -29,6 +29,7 @@ public class World implements Storable {
     g = c.read("g");
     mapElements = new ArrayList<Room>();
     c.readAll("mapElements", mapElements);
+    return;
   }
 
   public List<Room> getMapElements(){
