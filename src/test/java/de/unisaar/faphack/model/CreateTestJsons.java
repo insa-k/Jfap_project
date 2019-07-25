@@ -28,16 +28,22 @@ public class CreateTestJsons {
   }
 
   @Test
-  void saveRoomWithInhabitants (){
+  void saveRoomWithInhabitants(){
     Room room = createSimpleRoom(2,3,  2);
     
     Character c1 = createBaseCharacter("John", 10, 5);
     Character c2 = createBaseCharacter("Mary", 15, 3);
     addCharacter(room, 1, 0, c1);
     addCharacter(room, 0, 1, c2);
-    // addCharacter currently can only add one character to a room, test again, when this is fixed
 
     genericSave(room, "room_with_inhabitants.json");
+  }
+  
+  @Test
+  void saveLargeRoom() {
+    Room room = createSimpleRoom(30, 30,  2);
+    // TODO add characters and things
+    genericSave(room, "room_large.json");
   }
 
   @Test
