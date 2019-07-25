@@ -152,10 +152,10 @@ implements Storable, TraitedTileOccupier {
     List<Tile> otherTiles = tile.getNeighbourTiles();
     for (Tile t: tile.getNeighbourTiles()) {
       // Find out if Tile is occupied
-      if (t.isOccupied()){
+      List<Character> inhabitants = t.getRoom().getInhabitants();
+      if (t.isOccupied(this)){
         // Tile does not know which Character is currently on it
         // We have to loop over the room again
-        List<Character> inhabitants = t.getRoom().getInhabitants();
         for (Character character : inhabitants) {
           Tile character_tile = character.getTile();
           if (t.equals(character_tile)) {
