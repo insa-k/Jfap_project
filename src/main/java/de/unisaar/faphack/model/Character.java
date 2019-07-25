@@ -210,11 +210,11 @@ implements Storable, TraitedTileOccupier {
      */
     CharacterModifier modif = eff;
 
-   for (Wearable arm : armor) {
-        Armor castArm = (Armor) arm;
-        modif = castArm.getModifyingEffect().apply(eff);
-    }
-    applyItem(modif);
+      for (Wearable arm : armor) {
+          Armor castArm = (Armor) arm;
+          modif = castArm.getModifyingEffect().apply(eff);
+      }
+      applyItem(modif);
   }
   // Changed Modifier based on Effects should be specified in the Modifier to generelize and simplify
   /**
