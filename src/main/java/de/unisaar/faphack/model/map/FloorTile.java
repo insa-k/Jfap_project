@@ -92,4 +92,16 @@ public class FloorTile extends Tile {
     return false;
   }
 
+  @Override
+  public Character characterOnTile() {
+    List<Character> inhabitants = room.getInhabitants();
+    for (Character c : inhabitants) {
+      Tile tile = c.getTile();
+      if (this == tile) {
+        return c;
+      }
+    }
+    // no character on tile
+    return null;
+  }
 }
