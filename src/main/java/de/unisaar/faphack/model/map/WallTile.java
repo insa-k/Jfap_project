@@ -18,7 +18,7 @@ import de.unisaar.faphack.model.MarshallingContext;
  *
  */
 public class WallTile extends Tile {
-  /** 0 means infinitely strong, > 0 means: must apply at least this force */
+  /** 0 means infinitely strong, > 0 means: must apply at least this force, -1 means the wall is destroyed */
   protected int destructible;
 
   public WallTile() {
@@ -33,7 +33,9 @@ public class WallTile extends Tile {
   @Override
   public Tile willTake(Character c) {
     // TODO please implement me! (done)
-    if (destructible > 0 && c.getPower() >= destructible) {
+    if ( destructible == -1 || (destructible > 0 && c.getPower() >= destructible)) {
+      // destroyed wall --> destructible = -1
+      destructible = -1;
       return this;
     }
     return null;

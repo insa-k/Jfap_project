@@ -40,20 +40,33 @@ public class DoorTile extends WallTile implements Storable, Observable<DoorTile>
   @Override
   public Tile willTake(Character c) {
     // TODO please implement me! (done)
-    if (!(locked) || c.hasKey(keyId) || (destructible > 0 && c.getPower() >= destructible)) {
+    // check if wall is already destroyed or if it is destructible
+    if (destructible == -1  || (destructible > 0 && c.getPower() >= destructible)) {
+      destructible = -1;
       locked = false;
       open = true;
-      Hallway hallway = getHallway();
-      // check if current tile is fromTile in Hallway and return the toTile
-      if(hallway.from().equals(this)) {
-        return hallway.to();
-      }
-      // otherwise return the "fromTile" --> in this case the actual toTile
-      else {
-        return hallway.from();
-      }
+      return getHallwayDestinationTile();
+    }
+    if (open || !(locked) || c.hasKey(keyId)) {
+      locked = false;
+      open = true;
+      return getHallwayDestinationTile();
     }
     return null;
+  }
+
+  /**
+   * returns the destination tile when going through a hallway
+   * @return
+   */
+  private Tile getHallwayDestinationTile() {
+    Hallway hallway = getHallway();
+    // check if current tile is fromTile in Hallway and return the toTile
+    if(hallway.from().equals(this)) {
+      return hallway.to();
+    }
+    // otherwise return the "fromTile" --> in this case the actual toTile
+    return hallway.from();
   }
 
   @Override
