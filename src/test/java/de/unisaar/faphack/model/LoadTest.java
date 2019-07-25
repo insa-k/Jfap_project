@@ -113,6 +113,37 @@ class LoadTest {
     assertEquals(orig, saved);
   }
   
+  //@Test
+  void genericLoad(String filename) throws IOException, ParseException {
+    File f = getTestResourceFile("", filename);
+    StorableFactory fact = new StorableFactory();
+    StorableRegistrator.registerStorables(fact);
+    MarshallingContext mc = new JsonMarshallingContext(f, fact);
+    Item sword = (Item)mc.read();
+    assertNotNull(sword);
+    String outFile = filename.split("[.]")[0] + "_out.json";
+    File f2 = getTestResourceFile("", outFile);
+    mc = new JsonMarshallingContext(f2, fact);
+    mc.save(sword);
+    JSONParser parser = new JSONParser();
+    JSONObject orig, saved;
+    Reader reader = new FileReader(f);
+    orig = (JSONObject) parser.parse(reader);
+    reader.close();
+    reader = new FileReader(f2);
+    saved = (JSONObject) parser.parse(reader);
+    migrateIds(orig, saved);
+    reader.close();
+    assertEquals(orig, saved);
+  }
+  
+  @Test
+  void simpleLoadSword() throws IOException, ParseException {
+    String filename = "sword.json";
+    genericLoad(filename);
+  }
+  
+  
   @Test
   void loadWithIntegers() {
     Wearable wearable = new Wearable();

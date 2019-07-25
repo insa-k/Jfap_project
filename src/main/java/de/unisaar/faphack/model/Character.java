@@ -307,17 +307,19 @@ implements Storable, TraitedTileOccupier {
   public void unmarshal(MarshallingContext c) {
     level = c.readInt("level");
     tile = c.read("Tile");
-    items = c.read("Items");
+    items =  new ArrayList<>();
+    c.readAll("Items", items);
     health = c.readInt("Health");
     magic = c.readInt("Magic");
     power = c.readInt("Power");
     skills = c.read("Skills");
-    armor = c.read("Armor");
+    armor = new ArrayList<>();
+    c.readAll("Armor", armor);
     maxWeight = c.readInt("MaxWeight");
     currentWeight = c.readInt("CurrentWeight");
     activeEffects = new HashSet<>();
     c.readAll("ActiveEffects", activeEffects);
-    name = c.read("Name");
+    name = c.readString("Name");
     role = c.readString("Role");
     activeWeapon = c.read("ActiveWeapon");
   }

@@ -12,7 +12,9 @@ public class Key extends Item {
    * @return true if this key matches the given keyId, false otherwise
    */
   public boolean matchedKeyId(int keyId) {
-    //TODO
+    if (this.keyId == keyId) {
+      return true;
+    }
     return false;
   }
   
