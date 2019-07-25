@@ -148,6 +148,21 @@ class LoadTest {
     genericLoad(filename);
   }
   
+  void simpleLoadRoomInhabitants() throws IOException, ParseException {
+    String filename = "room_with_inhabitants.json";
+    genericLoad(filename);
+  }
+  
+  void simpleLoadMagicPotion() throws IOException, ParseException {
+    String filename = "magic_potion.json";
+    genericLoad(filename);
+  }
+  
+  void simpleLoadCharacter() throws IOException, ParseException {
+    String filename = "john.json";
+    genericLoad(filename);
+  }
+  
   
   @Test
   void loadWithIntegers() {
