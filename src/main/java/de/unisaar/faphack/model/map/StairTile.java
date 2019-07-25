@@ -34,6 +34,24 @@ public class StairTile extends Tile {
     // TODO please implement me! (done?)
 
     Stair stair = getStair();
+
+    //    TODO: check how traps work
+    //    check if trap is masked as stairs
+    if( !(hasTrap()==null)) {
+      trap.applyTrapeffect(c);
+      if (stair.onlyDown()) {
+        // so: check if current tile is the fromTile
+        if (stair.from().equals(this)) {
+          // the character goes a level down
+          c.levelDown();
+          // then the character can only go fromTile -> toTile
+          return stair.to();
+        }
+        // otherwise you can't go this way and it should return null
+        return null;
+      }
+    }
+
     // check if stair is only oneWay
     if (stair.onlyDown()) {
       // so: check if current tile is the fromTile
@@ -54,18 +72,17 @@ public class StairTile extends Tile {
     // current tile is "toTile"
     c.levelUp();
     return stair.from();
-
-//    TODO: check how traps work
-//    // check if trap is masked as stairs
-//    if( !(hasTrap().equals(null))) {
-//      StairTile trapDoor = hasTrap().trapDoor;
-
   }
 
   /** Return non-null if this is a trap */
   @Override
   public Trap hasTrap() {
-    return trap;
+     return trap;
+  }
+
+  public void triggerTrap(){
+    Stair stair = getStair();
+
   }
 
   @Override
