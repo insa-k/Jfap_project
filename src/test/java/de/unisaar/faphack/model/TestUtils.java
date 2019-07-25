@@ -397,14 +397,22 @@ public class TestUtils {
     modifyField(character, false, "role", character.WARRIOR);
     return character;
   }
-  
+
+  public static void placeTrapOnTile(Trap trap, Tile tile){
+    trap.onTile = tile;
+    if (tile instanceof  StairTile) {
+      modifyField(trap, false, "trapDoor", tile);
+      modifyField(tile, false, "trap", trap);
+    }
+  }
+
   /** Gives a weapon to a protagonist and make it their active weapon*/
   public static void addActiveWeapon(Character c, Wearable w) {
     modifyField(w, false, "character", c);
     c.items.add(w);
     modifyField(c, false, "activeWeapon", w);
   }
-  
+
   public static void addItemToCharacter(Character c, Wearable w) {
     modifyField(w, false, "character", c);
     c.items.add(w);
