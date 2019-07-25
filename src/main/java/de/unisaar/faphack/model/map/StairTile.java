@@ -80,11 +80,6 @@ public class StairTile extends Tile {
      return trap;
   }
 
-  public void triggerTrap(){
-    Stair stair = getStair();
-
-  }
-
   @Override
   public void marshal(MarshallingContext c) {
     super.marshal(c);
