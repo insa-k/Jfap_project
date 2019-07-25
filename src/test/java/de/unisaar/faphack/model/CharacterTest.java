@@ -197,13 +197,18 @@ class CharacterTest {
   
   @Test
   void interact() {
-    Room room = TestUtils.createSimpleRoom(3, 3, 1);
+    Room room = TestUtils.createSimpleRoom(7, 7, 1);
     Character testObject = TestUtils.createBaseCharacter("cat", 2, 2);
-    TestUtils.addCharacter(room, 1, 1, testObject);
+    Character neighbour1 = TestUtils.createBaseCharacter("dog", 2, 2);
+    Character neighbour2 = TestUtils.createBaseCharacter("mouse", 2, 2);
+    TestUtils.addCharacter(room, 2, 2, testObject);
+    TestUtils.addCharacter(room, 1, 1, neighbour1);
+    TestUtils.addCharacter(room, 3, 2, neighbour2);
+
     Item i1 = createWearable(3, true);
     Item i2 = createArmor(0.4, 0.2, 0.0);
-    
-    placeItemsInRoom(room, 1, 1, i1, i2);
+    placeItemsInRoom(room, 2, 2, i1, i2);
+
     testObject.interact();
   }
 

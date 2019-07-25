@@ -149,18 +149,16 @@ implements Storable, TraitedTileOccupier {
     //  - Characters on neighboring tiles
     //  - Items to the current tile
     List<Character> neighbours = new ArrayList<Character>();
-    Tile t = tile;
-    System.out.println(t);
     List<Tile> otherTiles = tile.getNeighbourTiles();
-    for (Tile tile: tile.getNeighbourTiles()) {
+    for (Tile t: tile.getNeighbourTiles()) {
       // Find out if Tile is occupied
-      if (tile.isOccupied()){
+      if (t.isOccupied()){
         // Tile does not know which Character is currently on it
         // We have to loop over the room again
-        List<Character> inhabitants = tile.getRoom().getInhabitants();
+        List<Character> inhabitants = t.getRoom().getInhabitants();
         for (Character character : inhabitants) {
           Tile character_tile = character.getTile();
-          if (tile.equals(character_tile)) {
+          if (t.equals(character_tile)) {
             neighbours.add(character);
           }
         }

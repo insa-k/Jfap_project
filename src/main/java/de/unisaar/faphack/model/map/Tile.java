@@ -67,7 +67,7 @@ public abstract class Tile implements Storable, TraitOwner {
         if (i == 0 && j == 0) {
           continue;
         }
-        neighbours.add(getNextTile(new Direction(-1, -1)));
+        neighbours.add(getNextTile(new Direction(i, j)));
       }
     }
     return neighbours;
