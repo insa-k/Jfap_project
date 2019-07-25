@@ -44,7 +44,8 @@ public class FloorTile extends Tile {
     return this;
   }
 
-  /** FloorTiles can have items on them */
+  /** FloorTiles can have items on them
+   * @return*/
   public List<Item> onTile() {
     return items;
   }

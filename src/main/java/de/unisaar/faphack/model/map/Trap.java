@@ -1,6 +1,7 @@
 package de.unisaar.faphack.model.map;
 
 import de.unisaar.faphack.model.CharacterModifier;
+import de.unisaar.faphack.model.Character;
 import de.unisaar.faphack.model.Fixtures;
 import de.unisaar.faphack.model.MarshallingContext;
 
@@ -21,17 +22,28 @@ public class Trap extends Fixtures {
 
   protected CharacterModifier modifier;
 
-  public Trap() {
+  public Trap() {}
 
-  }
+      public void applyTrapeffect(Character c){
+          modifier.applyTo(c);
+      }
 
-  public void marshal(MarshallingContext c) {
-    super.marshal(c);
-    c.write("trapDoor", trapDoor);
-  }
+      //public Tile setTrap() {
+      //return trapDoor.onTile();
+      //}
 
-  public void unmarshal(MarshallingContext c) {
-    super.unmarshal(c);
-    trapDoor = c.read("trapDoor");
-  }
+      public void setEffect(CharacterModifier mod) {
+          modifier = mod;
+      }
+
+      public void marshal (MarshallingContext c){
+          super.marshal(c);
+          c.write("trapDoor", trapDoor);
+      }
+
+      public void unmarshal (MarshallingContext c){
+          super.unmarshal(c);
+          trapDoor = c.read("trapDoor");
+      }
+
 }

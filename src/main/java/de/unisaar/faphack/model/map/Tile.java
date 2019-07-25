@@ -83,6 +83,7 @@ public abstract class Tile implements Storable, TraitOwner {
 
   /**
    *  Almost all tiles can not have items on them.
+   * @return
    */
   public List<Item> onTile() {
     return Collections.emptyList();
