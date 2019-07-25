@@ -82,6 +82,10 @@ public class Room implements Storable {
     return path;
   }
 
+  public List<Tile> getPath(Tile t, Direction d) {
+    return computeDDA(t, d);
+  }
+
   public Tile[][] getTiles() {
     return tiles;
   }
