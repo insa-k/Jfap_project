@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import static de.unisaar.faphack.model.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 class CharacterTest {
 
   /**
@@ -191,6 +193,18 @@ class CharacterTest {
     //Character Wiederbelebung ist in Ordnung
     //testObject.applyItem(cM);
     //assertEquals(0, testObject.health);
+  }
+  
+  @Test
+  void interact() {
+    Room room = TestUtils.createSimpleRoom(3, 3, 1);
+    Character testObject = TestUtils.createBaseCharacter("cat", 2, 2);
+    TestUtils.addCharacter(room, 1, 1, testObject);
+    Item i1 = createWearable(3, true);
+    Item i2 = createArmor(0.4, 0.2, 0.0);
+    
+    placeItemsInRoom(room, 1, 1, i1, i2);
+    testObject.interact();
   }
 
 }
