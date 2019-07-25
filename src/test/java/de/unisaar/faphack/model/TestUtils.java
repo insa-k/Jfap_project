@@ -397,4 +397,16 @@ public class TestUtils {
     modifyField(character, false, "role", character.WARRIOR);
     return character;
   }
+  
+  /** Gives a weapon to a protagonist and make it their active weapon*/
+  public static void addActiveWeapon(Character c, Wearable w) {
+    modifyField(w, false, "character", c);
+    c.items.add(w);
+    modifyField(c, false, "activeWeapon", w);
+  }
+  
+  public static void addItemToCharacter(Character c, Wearable w) {
+    modifyField(w, false, "character", c);
+    c.items.add(w);
+  }
 }
