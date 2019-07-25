@@ -51,18 +51,12 @@ class GameTest {
   @Test
   void move() {
     Game game = TestUtils.createGame();
-    Room room = game.getWorld().getMapElements().get(0);
+    Room room = game.getWorld().getMapElements().get(2);
     Character testObject = room.getInhabitants().get(0);
-    assertTrue(game.move(testObject, new Direction(-1, 0)));
+    assertTrue(game.move(testObject, new Direction(1, 0)));
     assertTrue(game.move(testObject, new Direction(0, -1)));
-    assertTrue(game.move(testObject, new Direction(1, 0)));
-    assertFalse(game.move(testObject, new Direction(1, -1)));
-    // check movement of character if power = 0
-    testObject.power = 0;
-    assertFalse(game.move(testObject, new Direction(1, 0)));
-    // one move should be viable because he rested in the previous turn
-    assertTrue(game.move(testObject, new Direction(1, 0)));
-    assertFalse(game.move(testObject, new Direction(1, -1)));
+    assertTrue(game.move(testObject, new Direction(-1, 0)));
+    assertFalse(game.move(testObject, new Direction(-1, 0)));
   }
 
   /**
