@@ -124,7 +124,7 @@ public abstract class Tile implements Storable, TraitOwner {
   /**
    *  Almost all tiles can not be occupied by a character.
    */
-  public boolean isOccupied(){
+  public boolean isOccupied(Character currentCharacter){
     return false;
   }
 }

@@ -180,9 +180,10 @@ implements Storable, TraitedTileOccupier {
     // (?) Call directly one of the interactable methods like attack or pickup?
   }
 
-  public Wearable activeWeapon() {
-    return activeWeapon;
-  }
+//  redundant because of getActiveWeapon()
+//  public Wearable activeWeapon() {
+//    return activeWeapon;
+//  }
 
   public Tile getTile() {
     return tile;
