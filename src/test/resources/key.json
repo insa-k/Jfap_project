@@ -1,0 +1,8 @@
+{ "id": "Wearable@000007",
+  "onTile": null,
+  "trait": "key",
+  "weight": 1,
+  "isWeapon": 0,
+  "character": null,
+  "keyid": "Doortile@000001"
+}

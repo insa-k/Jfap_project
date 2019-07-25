@@ -234,7 +234,7 @@ implements Storable, TraitedTileOccupier {
 
     if (!items.contains(item)){return false;}
 
-    if (item == this.activeWeapon){activeWeapon = null; }
+    if (item instanceof Weapon){activeWeapon = null; }
 
     if (armor.contains(item)){armor.remove(item);}
 
@@ -256,7 +256,7 @@ implements Storable, TraitedTileOccupier {
           armor.add((Armor)wearable);
           return true;
         }
-        if (wearable.isWeapon) {
+        if (wearable instanceof Weapon) {
           this.activeWeapon = wearable;
           return true;
         }

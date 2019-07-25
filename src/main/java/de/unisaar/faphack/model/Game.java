@@ -95,8 +95,8 @@ public class Game implements Storable {
   public boolean equip(Character who, Wearable what){
     // TODO please implement me!
     return who.equipItem(what);
-
   }
+
 
   @Override
   public void marshal(MarshallingContext c) {
