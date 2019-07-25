@@ -37,7 +37,7 @@ public class Game implements Storable {
     // TODO please implement me! (done)
     return new MoveEffect(direction).apply(whom);
   }
-
+  
   /**
    * The character rests, i.e. it moves with direction (0,0) and its power increases by 5
   */
@@ -128,7 +128,7 @@ public class Game implements Storable {
       int randomX = new Random().nextInt(tiles.length);
       int randomY = new Random().nextInt(tiles[randomX].length);
       Tile randomTile = tiles[randomX][randomY];
-      if ( !(randomTile.willTake(prot).equals(null)) ) {
+      if ( !(randomTile.willTake(prot) == null) ) {
         protagonist.tile = randomTile;
         return;
       }

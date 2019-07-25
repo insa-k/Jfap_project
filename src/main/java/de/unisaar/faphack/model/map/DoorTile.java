@@ -62,7 +62,7 @@ public class DoorTile extends WallTile implements Storable, Observable<DoorTile>
   private Tile getHallwayDestinationTile() {
     Hallway hallway = getHallway();
     // check if current tile is fromTile in Hallway and return the toTile
-    if(hallway.from().equals(this)) {
+    if(hallway.from() == this) {
       return hallway.to();
     }
     // otherwise return the "fromTile" --> in this case the actual toTile

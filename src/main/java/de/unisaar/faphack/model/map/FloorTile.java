@@ -84,7 +84,7 @@ public class FloorTile extends Tile {
     for (Character c : inhabitants) {
       Tile tile = c.getTile();
       // if current character is on tile
-      if (this.equals(tile) && !(c.equals(currentCharacter))) {
+      if (this == tile && !(c == currentCharacter)) {
         return true;
       }
     }

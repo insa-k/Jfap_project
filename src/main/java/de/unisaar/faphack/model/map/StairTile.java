@@ -37,7 +37,7 @@ public class StairTile extends Tile {
     // check if stair is only oneWay
     if (stair.onlyDown()) {
       // so: check if current tile is the fromTile
-      if (stair.from().equals(this)) {
+      if (stair.from() == this) {
         // the character goes a level down
         c.levelDown();
         // then the character can only go fromTile -> toTile
@@ -47,7 +47,7 @@ public class StairTile extends Tile {
       return null;
     }
     // stair goes both ways
-    if (stair.from().equals(this)) {
+    if (stair.from() == this) {
       c.levelDown();
       return stair.to();
     }
