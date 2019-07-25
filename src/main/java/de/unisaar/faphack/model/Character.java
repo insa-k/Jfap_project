@@ -144,6 +144,44 @@ implements Storable, TraitedTileOccupier {
    */
   public void interact() {
     // TODO Auto-generated method stub
+    // Look around who or what you can interact with
+    // List: 
+    //  - Characters on neighboring tiles
+    //  - Items to the current tile
+    List<Character> neighbours = new ArrayList<Character>();
+    List<Tile> otherTiles = tile.getNeighbourTiles();
+    for (Tile t: tile.getNeighbourTiles()) {
+      // Find out if Tile is occupied
+      List<Character> inhabitants = t.getRoom().getInhabitants();
+      if (t.isOccupied(this)){
+        // Tile does not know which Character is currently on it
+        // We have to loop over the room again
+        for (Character character : inhabitants) {
+          Tile character_tile = character.getTile();
+          if (t.equals(character_tile)) {
+            neighbours.add(character);
+          }
+        }
+      }
+    }
+    // List items on current tile
+    List<Item> availableItems = tile.onTile();
+    
+    // List options what you can do next
+    // Print this or give string to GUI?
+    System.out.printf("There are %d characters you can interact with:\n", neighbours.size());
+    for (Character c: neighbours) {
+      String position = String.format(" at position (%d, %d) ", c.getTile().getX(), c.getTile().getY());
+      System.out.println(" - " + c.getName() + ", a " + c.getTrait() + position);
+    }
+    System.out.printf("There are %d items you can interact with:\n", availableItems.size());
+    for (Item i: availableItems) {
+      System.out.println(" - " + i.getTrait());
+      if (i instanceof Wearable) {
+        System.out.println("\tyou can try to pick it up");
+      }
+    }
+    // (?) Call directly one of the interactable methods like attack or pickup?
   }
 
 //  redundant because of getActiveWeapon()

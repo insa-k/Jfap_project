@@ -35,7 +35,8 @@ public class CreateTestJsons {
     Character c2 = createBaseCharacter("Mary", 15, 3);
     addCharacter(room, 1, 0, c1);
     addCharacter(room, 0, 1, c2);
-    
+    // addCharacter currently can only add one character to a room, test again, when this is fixed
+
     genericSave(room, "room_with_inhabitants.json");
   }
 

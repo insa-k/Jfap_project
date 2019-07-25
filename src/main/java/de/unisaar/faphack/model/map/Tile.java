@@ -3,6 +3,7 @@ package de.unisaar.faphack.model.map;
 import de.unisaar.faphack.model.Character;
 import de.unisaar.faphack.model.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,6 +57,20 @@ public abstract class Tile implements Storable, TraitOwner {
     // TODO please implement me!
     Tile t = room.getNextTile(this, d);
     return t;
+  }
+  
+  public List<Tile> getNeighbourTiles() {
+    List<Tile> neighbours = new ArrayList<Tile>();
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+        // Skip current tile
+        if (i == 0 && j == 0) {
+          continue;
+        }
+        neighbours.add(getNextTile(new Direction(i, j)));
+      }
+    }
+    return neighbours;
   }
 
   /**
