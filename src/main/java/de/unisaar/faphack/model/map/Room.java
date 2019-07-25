@@ -47,7 +47,8 @@ public class Room implements Storable {
     List<Tile> path = computeDDA(t, d);
     // check if tile is wall tile but skip the first tile, since it is the current tile
     for (Tile tile : path.subList(1, path.size())) {
-      if (tile instanceof WallTile) {
+      // if tile is a WallTile and it is not yet destroyed then the path ends here
+      if ((tile instanceof WallTile ) && ((WallTile) tile).destructible >= 0) {
         return tile;
       }
     }
