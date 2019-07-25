@@ -171,11 +171,15 @@ implements Storable, TraitedTileOccupier {
     // Print this or give string to GUI?
     System.out.printf("There are %d characters you can interact with:\n", neighbours.size());
     for (Character c: neighbours) {
-      System.out.println("- " + c.getName() + ", a " + c.getTrait());
+      String position = String.format(" at position (%d, %d) ", c.getTile().getX(), c.getTile().getY());
+      System.out.println(" - " + c.getName() + ", a " + c.getTrait() + position);
     }
     System.out.printf("There are %d items you can interact with:\n", availableItems.size());
     for (Item i: availableItems) {
-      System.out.println("\t- " + i.getTrait());
+      System.out.println(" - " + i.getTrait());
+      if (i instanceof Wearable) {
+        System.out.println("\tyou can try to pick it up");
+      }
     }
     // (?) Call directly one of the interactable methods like attack or pickup?
   }
