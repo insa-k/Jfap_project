@@ -146,9 +146,10 @@ implements Storable, TraitedTileOccupier {
     // TODO Auto-generated method stub
   }
 
-  public Wearable activeWeapon() {
-    return activeWeapon;
-  }
+//  redundant because of getActiveWeapon()
+//  public Wearable activeWeapon() {
+//    return activeWeapon;
+//  }
 
   public Tile getTile() {
     return tile;
