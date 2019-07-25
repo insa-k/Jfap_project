@@ -143,6 +143,26 @@ class LoadTest {
     genericLoad(filename);
   }
   
+  void simpleLoadPotion() throws IOException, ParseException {
+    String filename = "potion.json";
+    genericLoad(filename);
+  }
+  
+  void simpleLoadRoomInhabitants() throws IOException, ParseException {
+    String filename = "room_with_inhabitants.json";
+    genericLoad(filename);
+  }
+  
+  void simpleLoadMagicPotion() throws IOException, ParseException {
+    String filename = "magic_potion.json";
+    genericLoad(filename);
+  }
+  
+  void simpleLoadCharacter() throws IOException, ParseException {
+    String filename = "john.json";
+    genericLoad(filename);
+  }
+  
   
   @Test
   void loadWithIntegers() {
@@ -176,19 +196,7 @@ class LoadTest {
         
   }
   
-  @Test
-  void loadBoard() {
-    Room room1 = createSimpleRoom(3,2,  1);
-    File f = getTestResourceFile("", "room_1.json");
-    StorableFactory fact = new StorableFactory();
-    StorableRegistrator.registerStorables(fact);
-    MarshallingContext mc = new JsonMarshallingContext(f, fact);
-    mc.save(room1);
-    assertTrue(f.canRead());
-    // Read again and check values
-    fact = new StorableFactory();
-    StorableRegistrator.registerStorables(fact);
-    mc = new JsonMarshallingContext(f, fact);
-    Room room2 = (Room)mc.read();
-  }
+
+  
+
 }

@@ -170,7 +170,7 @@ public class TestUtils {
    * @param character
    */
   public static void addCharacter(Room room, int x, int y, Character character){
-    List<Character> inhabitants = new ArrayList<>();
+    List<Character> inhabitants = room.getInhabitants();
     inhabitants.add(character);
     modifyField(room,false, "inhabitants", inhabitants);
     placeCharacter(character,room.getTiles()[x][y]);
@@ -396,5 +396,17 @@ public class TestUtils {
     modifyField(character, false, "name", name);
     modifyField(character, false, "role", character.WARRIOR);
     return character;
+  }
+  
+  /** Gives a weapon to a protagonist and make it their active weapon*/
+  public static void addActiveWeapon(Character c, Wearable w) {
+    modifyField(w, false, "character", c);
+    c.items.add(w);
+    modifyField(c, false, "activeWeapon", w);
+  }
+  
+  public static void addItemToCharacter(Character c, Wearable w) {
+    modifyField(w, false, "character", c);
+    c.items.add(w);
   }
 }
