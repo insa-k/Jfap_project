@@ -104,9 +104,14 @@ public class JsonMarshallingContext implements MarshallingContext {
       JSONObject parentJson = this.stack.getFirst();
       parentJson.put(key, null);
       return;
+<<<<<<< Updated upstream
     };
 
     // Storable that is not null
+=======
+    }
+    
+>>>>>>> Stashed changes
     // get ID
     String className = factory.getClassName(object.getClass());
     String runningID = Integer.toString(idGenerator++);
