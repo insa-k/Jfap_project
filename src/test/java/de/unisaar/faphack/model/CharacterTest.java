@@ -211,5 +211,61 @@ class CharacterTest {
 
     testObject.interact();
   }
+  
+  @Test
+  void trade() {
+    Room room = TestUtils.createSimpleRoom(7, 7, 1);
+    Character c1 = TestUtils.createBaseCharacter("cat", 2, 2);
+    Character c2 = TestUtils.createBaseCharacter("dog", 2, 2);
+    TestUtils.addCharacter(room, 2, 2, c1);
+    TestUtils.addCharacter(room, 1, 1, c2);
+    
+    Wearable i1 = createWearable(3, true);
+    Wearable i2 = createWearable(1, false);
+    c1.items.add(i1);
+    c2.items.add(i2);
+    
+    // Test possible trade
+    boolean tradeOk = c1.initiateTrade(c2, i1, i2);
+    assertTrue(tradeOk);
+    assertTrue(c1.items.contains(i2));
+    assertTrue(c2.items.contains(i1));
+    assertFalse(c1.items.contains(i1));
+    assertFalse(c2.items.contains(i2));
+    
+    // Impossible trade because c2 does not possess i2
+    tradeOk = c1.initiateTrade(c2, i2, i2);
+    assertFalse(tradeOk);
+    assertTrue(c1.items.contains(i2));
+    assertTrue(c2.items.contains(i1));
+    assertFalse(c1.items.contains(i1));
+    assertFalse(c2.items.contains(i2));
+  }
+  
+  @Test
+  void tradeinRoom() {
+    Room room = TestUtils.createSimpleRoom(7, 7, 1);
+    Character c1 = TestUtils.createBaseCharacter("cat", 2, 2);
+    Character c2 = TestUtils.createBaseCharacter("dog", 2, 2);
+    Character c3 = TestUtils.createBaseCharacter("mouse", 2, 2);
+    TestUtils.addCharacter(room, 2, 2, c1);
+    TestUtils.addCharacter(room, 1, 1, c2);
+    TestUtils.addCharacter(room, 6, 6, c3);
+    
+    Wearable i1 = createWearable(3, true);
+    Wearable i2 = createWearable(1, false);
+    Wearable i3 = createWearable(1, false);
+    c1.items.add(i1);
+    c2.items.add(i2);
+    c3.items.add(i3);
+
+    // Possible Trade
+    boolean tradeOk = c1.initiateTrade(c2, i1, i2);
+    assertTrue(tradeOk);
+
+    // Impossible Trade because c1 and c2 are not standing next to each other
+    tradeOk = c1.initiateTrade(c3, i2, i3);
+    assertFalse(tradeOk);
+  }
 
 }

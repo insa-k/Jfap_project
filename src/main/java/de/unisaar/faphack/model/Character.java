@@ -375,4 +375,38 @@ implements Storable, TraitedTileOccupier {
   public void rest() {
     this.power += 5;
   }
+  
+  public boolean initiateTrade(Character trader, Wearable give, Wearable get) {
+    // Check if trading characters stand next to each other
+    Tile t1 = this.getTile();
+    Tile t2 = trader.getTile();
+    Direction diff = t1.getDistance(t2);
+    //Direction diff = this.getTile().getDistance(trader.getTile());
+    if (diff.x > 1 || diff.y > 1 || diff.x < -1 || diff.y < -1) {
+      return false;
+    }
+    // Check if this character possess the give Wearable
+    if (!(items.contains(give))) {
+      return false;
+    }
+    // Check if trade is ok from trading partner
+    if (trader.receiveTrade(this, get, give)){  //Switch get and give items
+      items.remove(give);
+      items.add(get);
+      // Tell items that you traded them
+      get.character = this;
+      give.character = trader;
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean receiveTrade(Character trader, Wearable give, Wearable get) {
+    if (!(items.contains(give))) {
+      return false;
+    }
+    items.remove(give);
+    items.add(get);
+    return true;
+  }
 }

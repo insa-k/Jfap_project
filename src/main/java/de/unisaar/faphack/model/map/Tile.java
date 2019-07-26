@@ -133,4 +133,10 @@ public abstract class Tile implements Storable, TraitOwner {
    * @return <code>null</code> for almost all tiles because they cannot be occupied by a character
    */
   public Character characterOnTile() { return null; }
+  
+  public Direction getDistance(Tile otherTile) {
+    int diffx = otherTile.getX() - x;
+    int diffy = otherTile.getY() - y;
+    return new Direction(diffx, diffy);
+  }
 }
