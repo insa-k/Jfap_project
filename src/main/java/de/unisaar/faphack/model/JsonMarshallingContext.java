@@ -34,15 +34,15 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void save(Storable s) {
+    //TODO Clear stack in the beginning?
     // Create outer json
     JSONObject json = new JSONObject();
     this.stack.addFirst(json);
-    
-//    s.marshal(this);
-    this.write("Outer", s);
+
+    this.write("Outer", s);  // Delegate saving to method write(key, Storable)
     JSONObject wrappedjson = stack.pop();
     JSONObject fulljson = (JSONObject)wrappedjson.get("Outer");
-    
+
     try (FileWriter writer = new FileWriter(file)) {
       writer.write(fulljson.toJSONString());
       System.out.println("Successfully wrote JSON object to file...");
@@ -54,7 +54,7 @@ public class JsonMarshallingContext implements MarshallingContext {
   }
 
   public Storable read() {
-    // TODO Auto-generated method stub
+  //TODO Clear stack in the beginning?
     JSONParser parser = new JSONParser();
     try
     {
@@ -68,8 +68,7 @@ public class JsonMarshallingContext implements MarshallingContext {
       // Get class of stored object
       String classString = currentID.split("@")[0];  // first part of id encodes class
       Storable currentObj = factory.newInstance(classString);
-      // Put first in cache, then marshal
-      // Put read object in readcache
+      // Put first in readcache, then marshal
       readcache.put(currentID, currentObj);
       stack.addFirst(jsonObject);
       currentObj.unmarshal(this);
@@ -89,9 +88,6 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, Storable object) {
-    // TODO Auto-generated method stub
-    // TODO Clear stack in the beginning
-
     // Check if object is already in writecache
     if (this.writecache.containsKey(object)) {
       // TODO: is this the right treatment of already marshalled objects?
@@ -103,12 +99,14 @@ public class JsonMarshallingContext implements MarshallingContext {
     
     // Create json
     JSONObject json = new JSONObject();
+    // Save Storables that are null
     if (object == null) {
       JSONObject parentJson = this.stack.getFirst();
       parentJson.put(key, null);
       return;
     };
-    
+
+    // Storable that is not null
     // get ID
     String className = factory.getClassName(object.getClass());
     String runningID = Integer.toString(idGenerator++);
@@ -116,7 +114,6 @@ public class JsonMarshallingContext implements MarshallingContext {
     json.put("id", id);
     
     // Put object and id in writecache, this should be before descending into recursion
-//    String cacheValue = "{id: " + id + "}";
     this.writecache.put(object, id);
     
     // Put json on stack so other Marshalling methods have access to it
@@ -128,15 +125,13 @@ public class JsonMarshallingContext implements MarshallingContext {
     // Get current jsonObject out of stack
     JSONObject fulljson = this.stack.pop();
 
-    // Write new json
-    // Or put new json in parent json
+    // Put new json in parent json
     JSONObject parentJson = this.stack.getFirst();
     parentJson.put(key, fulljson);
   }
 
   @Override
   public <T extends Storable> T read(String key) {
-    // TODO Auto-generated method stub
     JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     // Check if Storable is null
@@ -155,7 +150,7 @@ public class JsonMarshallingContext implements MarshallingContext {
         return currentObj;
       }
     }
-
+    // Storable is not in readcache and has to be read now
     JSONObject jsonObject = (JSONObject)rawValue;
 
     // get id
@@ -164,8 +159,7 @@ public class JsonMarshallingContext implements MarshallingContext {
     // Get class of stored object
     String classString = currentID.split("@")[0];  // first part of id encodes class
     T currentObj = (T)factory.newInstance(classString);
-    // Put first in cache, then marshal
-    // Put read object in readcache
+    // Put first in readcache, then marshal
     readcache.put(currentID, currentObj);
     stack.addFirst(jsonObject);
     currentObj.unmarshal(this);
@@ -177,7 +171,6 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, int object) {
-    // TODO Auto-generated method stub
     JSONObject parentJson = this.stack.getFirst();
     parentJson.put(key, object);
   }
@@ -185,7 +178,9 @@ public class JsonMarshallingContext implements MarshallingContext {
   @Override
   public int readInt(String key) {
     JSONObject currentjson = stack.getFirst();
-    // Following recommended in https://st,ackoverflow.com/questions/17164014/java-lang-classcastexception-java-lang-long-cannot-be-cast-to-java-lang-integer
+    // Following recommendation in 
+    // https://st,ackoverflow.com/questions/17164014/java-lang-classcastexception-java-lang-long-cannot-be-cast-to-java-lang-integer
+    // to cast JSON Output to int
     Object rawValue = currentjson.get(key);
     int value = ((Long)rawValue).intValue();
     // TODO: catch if the object cannot be cast to int
@@ -194,16 +189,13 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, double object) {
-    // TODO Auto-generated method stub
     // get current collecting json
     JSONObject parentJson = this.stack.getFirst();
     parentJson.put(key, object);
-
   }
 
   @Override
   public double readDouble(String key) {
-    // TODO Auto-generated method stub
     JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     float value = (Float)rawValue;
@@ -212,14 +204,12 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, String object) {
-    // TODO Auto-generated method stub
     JSONObject parentJson = this.stack.getFirst();
     parentJson.put(key, object);
   }
 
   @Override
   public String readString(String key) {
-    // TODO Auto-generated method stub
     JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     String value = (String)rawValue;
@@ -236,8 +226,8 @@ public class JsonMarshallingContext implements MarshallingContext {
       this.stack.addFirst(new JSONObject());
       this.write("Outerloop", storable);
       JSONObject wrappedjson = stack.pop();
-      // Check if Object was read right now or whether it is in the cache
       Object newElement = wrappedjson.get("Outerloop");
+      // Check whether Object was read right now or whether it is in the cache
       if (newElement instanceof String) {
         String fulljson = (String)newElement;
         array.add(fulljson);
@@ -291,7 +281,7 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public void write(String key, Tile[][] coll) {
-    // Saves Board as a 2-dimensional Json-Array
+    // Saves Board as a 2-dimensional JSONArray
     JSONObject parentJson = this.stack.getFirst();
     JSONArray json_board = new JSONArray();
     // Loop over Board
@@ -312,13 +302,17 @@ public class JsonMarshallingContext implements MarshallingContext {
 
   @Override
   public Tile[][] readBoard(String key) {
-    // TODO Auto-generated method stub
+    // Get JSONArray encoding the board
     JSONObject currentjson = stack.getFirst();
     Object rawValue = currentjson.get(key);
     JSONArray json_board = (JSONArray)rawValue;
+
+    // Initialize Board as Tile[][]
     int x = json_board.size();
     int y = ((JSONArray)json_board.get(0)).size();
     Tile[][] board = new Tile[x][y];
+
+    // Loop over the Array, read individual Tiles and put them in the board
     for (int i = 0; i < x; i++) {
       JSONArray json_row = (JSONArray)json_board.get(i);
       for (int j = 0; j < y; j++) {
