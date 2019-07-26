@@ -301,11 +301,13 @@ implements Storable, TraitedTileOccupier {
     // TODO please implement me!
       if (items.contains(wearable)) {
         if (wearable instanceof Armor) {
+          wearable.character = this;
           armor.add((Armor)wearable);
           return true;
         }
         if (wearable.isWeapon) {
           this.activeWeapon = wearable;
+          wearable.character = this;
           return true;
         }
       }
