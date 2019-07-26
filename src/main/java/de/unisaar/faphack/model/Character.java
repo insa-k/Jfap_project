@@ -140,6 +140,7 @@ implements Storable, TraitedTileOccupier {
   }
 
   /**
+   * Looks around the character and prints what/who the character can interact with now (without moving)
    * @return void
    */
   public void interact() {
@@ -154,14 +155,8 @@ implements Storable, TraitedTileOccupier {
       // Find out if Tile is occupied
       List<Character> inhabitants = t.getRoom().getInhabitants();
       if (t.isOccupied(this)){
-        // Tile does not know which Character is currently on it
-        // We have to loop over the room again
-        for (Character character : inhabitants) {
-          Tile character_tile = character.getTile();
-          if (t.equals(character_tile)) {
-            neighbours.add(character);
-          }
-        }
+        Character character = t.characterOnTile();
+        neighbours.add(character);
       }
     }
     // List items on current tile
@@ -377,7 +372,14 @@ implements Storable, TraitedTileOccupier {
   public void rest() {
     this.power += 5;
   }
-  
+  /**
+   * Exchanges two items between two characters
+   * @param trader: the second Character that is part of the trade
+   * @param give: the item that traded from this character to trader
+   * @param get: the item that is traded back from trader to this character
+   * 
+   * @return boolean, true if the trade was successful
+   */
   public boolean initiateTrade(Character trader, Wearable give, Wearable get) {
     // Check if trading characters stand next to each other
     Tile t1 = this.getTile();
@@ -410,6 +412,14 @@ implements Storable, TraitedTileOccupier {
     return false;
   }
   
+  
+  /**
+   * Mirror method to initiateTrade that handles the trade from the perspective of the second character
+   * @param trader: the character that called initiateTrade
+   * @param give: the item that gets traded from this character to trader
+   * @param get: the item that gets traded from trader to this character
+   * @return boolean, true if the trade was successful
+   */
   public boolean receiveTrade(Character trader, Wearable give, Wearable get) {
     if (!(items.contains(give))) {
       return false;

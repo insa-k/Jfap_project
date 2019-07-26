@@ -59,6 +59,10 @@ public abstract class Tile implements Storable, TraitOwner {
     return t;
   }
   
+  /**
+   * Computes all eight direct neighbours of this tile
+   * @return a list with the neighbour tiles
+   */
   public List<Tile> getNeighbourTiles() {
     List<Tile> neighbours = new ArrayList<Tile>();
     for (int i = -1; i <= 1; i++) {
@@ -107,7 +111,6 @@ public abstract class Tile implements Storable, TraitOwner {
   }
 
   public void unmarshal(MarshallingContext c) {
-    // TODO please implement me!
     x = c.readInt("x");
     y = c.readInt("y");
     room = c.read("room");
@@ -134,6 +137,12 @@ public abstract class Tile implements Storable, TraitOwner {
    */
   public Character characterOnTile() { return null; }
   
+  
+  /**
+   * Computes the distance between two tiles
+   * @param otherTile: the destination tile
+   * @return a Direction that specifies how to go from this tile to otherTile
+   */
   public Direction getDistance(Tile otherTile) {
     int diffx = otherTile.getX() - x;
     int diffy = otherTile.getY() - y;
