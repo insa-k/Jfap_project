@@ -3,6 +3,7 @@ package de.unisaar.faphack.model;
 import de.unisaar.faphack.model.effects.MoveEffect;
 import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
+import de.unisaar.faphack.model.map.WallTile;
 import de.unisaar.faphack.model.map.World;
 
 import java.util.List;
@@ -37,7 +38,42 @@ public class Game implements Storable {
     // TODO please implement me! (done)
     return new MoveEffect(direction).apply(whom);
   }
-  
+
+  /**
+   *
+   * @param c the character that performs attack
+   * @param d direction of attack
+   * @return <code>true</code> if attack was successful, <code>false</code> otherwise
+   */
+  public boolean attack(Character c, Direction d) {
+    // TODO implement me!
+    //TODO maybe change activeWeapon type to Weapon everywhere
+    // it is currently a more generic Wearable
+    Weapon activeWeapon = (Weapon) c.getActiveWeapon();
+    // check if attack is in range
+    if (activeWeapon.attackIsInRange(d)) {
+      // check if something attackable is on tile of direction
+      Tile attackedTile = c.getRoom().getNextTile(c.getTile(), d);
+      if (attackedTile.isOccupied(c)) {
+        // get character on tile
+        Character attackedCharacter = attackedTile.characterOnTile();
+        // apply attack
+        CharacterModifier eff = activeWeapon.getCharacterModifier();
+        attackedCharacter.applyAttack(eff);
+        return true;
+      }
+      if (attackedTile instanceof WallTile && ((WallTile) attackedTile).getDestructible() > 0 ) {
+        // apply attack
+        // TODO: attack wall method
+        // currently walls are only destroyed if the character moves on it, via willTake()
+        // walls should also be destroyable by (possibly ranged) attacks
+        return false;
+        // return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * The character rests, i.e. it moves with direction (0,0) and its power increases by 5
   */
