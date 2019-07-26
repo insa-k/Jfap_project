@@ -2,6 +2,7 @@ package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
+import de.unisaar.faphack.model.map.WallTile;
 import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -196,6 +197,13 @@ class GameTest {
     assertTrue(game.attack(fnord, new Direction(-3, -1)));
     assertEquals(82, foo.getHealth());
     assertEquals(35, foo.getMagic());
+
+    // Fnord tries to attack undestructible wall
+    Tile undestructible = room.getTiles()[0][0];
+    assertTrue(undestructible instanceof  WallTile && ((WallTile) undestructible).getDestructible() == 0);
+    assertFalse(game.attack(fnord, new Direction(-4, -2)));
+
+    // Fnord tries to attack destructible wall
 
   }
 }
