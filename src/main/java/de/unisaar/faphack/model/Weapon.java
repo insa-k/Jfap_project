@@ -13,10 +13,7 @@ public class Weapon extends Wearable {
   protected boolean isMagical;
 
 
-  public Weapon(int range, boolean isMagical) {
-    this.range = range;
-    this.isMagical = isMagical;
-  }
+  public Weapon() { }
 
   public boolean isMagical() {
     return isMagical;
