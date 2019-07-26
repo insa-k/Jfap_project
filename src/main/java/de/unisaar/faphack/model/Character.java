@@ -389,8 +389,15 @@ implements Storable, TraitedTileOccupier {
     if (!(items.contains(give))) {
       return false;
     }
+    // Check if weight of get is ok
+    if ((getWeight() - give.weight + get.weight) > maxWeight) {
+      return false;
+    }
+    
     // Check if trade is ok from trading partner
     if (trader.receiveTrade(this, get, give)){  //Switch get and give items
+      if (give == this.activeWeapon){activeWeapon = null; }
+      if (armor.contains(give)){armor.remove(give);}
       items.remove(give);
       items.add(get);
       // Tell items that you traded them
@@ -405,6 +412,11 @@ implements Storable, TraitedTileOccupier {
     if (!(items.contains(give))) {
       return false;
     }
+    if ((getWeight() - give.weight + get.weight) > maxWeight) {
+      return false;
+    }
+    if (give == this.activeWeapon){activeWeapon = null; }
+    if (armor.contains(give)){armor.remove(give);}
     items.remove(give);
     items.add(get);
     return true;

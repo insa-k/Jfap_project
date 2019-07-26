@@ -215,8 +215,8 @@ class CharacterTest {
   @Test
   void trade() {
     Room room = TestUtils.createSimpleRoom(7, 7, 1);
-    Character c1 = TestUtils.createBaseCharacter("cat", 2, 2);
-    Character c2 = TestUtils.createBaseCharacter("dog", 2, 2);
+    Character c1 = TestUtils.createBaseCharacter("cat", 2, 10);
+    Character c2 = TestUtils.createBaseCharacter("dog", 2, 10);
     TestUtils.addCharacter(room, 2, 2, c1);
     TestUtils.addCharacter(room, 1, 1, c2);
     
@@ -245,9 +245,9 @@ class CharacterTest {
   @Test
   void tradeinRoom() {
     Room room = TestUtils.createSimpleRoom(7, 7, 1);
-    Character c1 = TestUtils.createBaseCharacter("cat", 2, 2);
-    Character c2 = TestUtils.createBaseCharacter("dog", 2, 2);
-    Character c3 = TestUtils.createBaseCharacter("mouse", 2, 2);
+    Character c1 = TestUtils.createBaseCharacter("cat", 2, 5);
+    Character c2 = TestUtils.createBaseCharacter("dog", 2, 15);
+    Character c3 = TestUtils.createBaseCharacter("mouse", 2, 5);
     TestUtils.addCharacter(room, 2, 2, c1);
     TestUtils.addCharacter(room, 1, 1, c2);
     TestUtils.addCharacter(room, 6, 6, c3);
@@ -259,12 +259,18 @@ class CharacterTest {
     c2.items.add(i2);
     c3.items.add(i3);
 
-    // Possible Trade
+    // Possible trade
     boolean tradeOk = c1.initiateTrade(c2, i1, i2);
     assertTrue(tradeOk);
 
-    // Impossible Trade because c1 and c2 are not standing next to each other
+    // Impossible trade because c1 and c2 are not standing next to each other
     tradeOk = c1.initiateTrade(c3, i2, i3);
+    assertFalse(tradeOk);
+    
+    // Impossible trade because c1 cannot hold so much weight
+    Wearable i4 = createWearable(10, false);
+    c2.items.add(i4);
+    tradeOk = c1.initiateTrade(c2, i2, i4);
     assertFalse(tradeOk);
   }
 
