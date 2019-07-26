@@ -78,6 +78,9 @@ public class WallTile extends Tile {
   }
 
   @Override
+  public String getTrait() { return destructible < 0 ? DESTROYED_WALL : WALL; }
+
+  @Override
   public Character characterOnTile() {
     List<Character> inhabitants = room.getInhabitants();
     for (Character c : inhabitants) {
