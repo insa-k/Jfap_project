@@ -279,6 +279,20 @@ public class TestUtils {
     return item;
   }
 
+  public static Weapon createWeapon(int weight, boolean isWeapon, int range, boolean isMagical,
+                                    int health, int magic, int power, int howLong) {
+
+    CharacterModifier characterModifier = TestUtils.createCharacterModifier(health, magic, power, howLong);
+
+    Weapon weapon = new Weapon();
+    modifySuperSuperField(weapon, "effect", characterModifier);
+    modifyField(weapon, false, "range", range);
+    modifyField(weapon, false, "isMagical", isMagical);
+    modifyField(weapon, true, "weight", weight);
+    modifyField(weapon, true, "isWeapon", isWeapon);
+
+    return weapon;
+  }
   /**
    * create a doortile with the given properties
    * @param destructible 0 if the door is indestructible, else power needed to force door open

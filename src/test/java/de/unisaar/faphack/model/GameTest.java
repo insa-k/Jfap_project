@@ -2,6 +2,7 @@ package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
+import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -139,5 +140,38 @@ class GameTest {
     // Illegal equip ( item not in inventory)
     Wearable item = createWearable(1, true);
     assertFalse(game.equip(character,item));
+  }
+
+  /**
+   * several attack cases:
+   * 1. Check if attacks are in range
+   *    1.1. sword (short range, requires power)
+   *    1.2. bow (long range, requires power)
+   *    1.3. magical staff (long range, requires magic ))
+   * 2. Attack destructible tiles
+   * 3. Attack other characters
+   */
+  @Test
+  void attack() {
+    Game game = TestUtils.createGame();
+    Room room = game.getWorld().getMapElements().get(0);
+    Character foo = createBaseCharacter("Foo", 10, 2);
+    Character bar = createBaseCharacter("Bar", 2, 2);
+    addCharacter(room, 1, 1, foo);
+    addCharacter(room, 1, 2, bar);
+
+    // Equip a weapon
+    Weapon weapon = createWeapon(1, true, 1, false, -10, -15, -1, 1);
+    foo.items.add(weapon);
+    game.equip(foo, weapon);
+
+    // Foo attacks (tile of) Bar and hits because the weapon range reaches bar
+    assertTrue(game.attack(foo, new Direction(0, 1)));
+    assertEquals(90, bar.getHealth());
+    
+    // Bar moves and Foo attacks but it does not hit Bar
+    bar.move(room.getNextTile(bar.tile, new Direction(0,1 )));
+    assertFalse(game.attack(foo, new Direction(0, 1)));
+
   }
 }
