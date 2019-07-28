@@ -2,6 +2,7 @@ package de.unisaar.faphack.model;
 
 import de.unisaar.faphack.model.map.Room;
 import de.unisaar.faphack.model.map.Tile;
+import de.unisaar.faphack.model.map.WallTile;
 import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -157,21 +158,52 @@ class GameTest {
     Room room = game.getWorld().getMapElements().get(0);
     Character foo = createBaseCharacter("Foo", 10, 2);
     Character bar = createBaseCharacter("Bar", 2, 2);
+    // powerful wizard
+    Character fnord = createBaseCharacter("Fnord", 15, 2);
+
     addCharacter(room, 1, 1, foo);
     addCharacter(room, 1, 2, bar);
+    addCharacter(room, 4, 2, fnord);
 
-    // Equip a weapon
-    Weapon weapon = createWeapon(1, true, 1, false, -10, -15, -1, 1);
-    foo.items.add(weapon);
-    game.equip(foo, weapon);
 
-    // Foo attacks (tile of) Bar and hits because the weapon range reaches bar
+    // create three weapons
+    Weapon sword = createWeapon(1, true, 1, false, -10, 0, -1, 1);
+    Weapon bow = createWeapon(1, true, 4, false, -8, 0, -1, 1);
+    Weapon magicalStaff = createWeapon(1, true, 10, true, -10, -15, -1, 1);
+
+    // Foo equips sword
+    foo.items.add(sword);
+    game.equip(foo, sword);
+    // Bar equips bow
+    bar.items.add(bow);
+    game.equip(bar, bow);
+    // Fnord equips magical staff
+    fnord.items.add(magicalStaff);
+    game.equip(fnord, magicalStaff);
+
+    // Foo attacks direction of Bar and hits because the weapon range reaches bar
     assertTrue(game.attack(foo, new Direction(0, 1)));
     assertEquals(90, bar.getHealth());
     
-    // Bar moves and Foo attacks but it does not hit Bar
+    // Bar moves and Foo attacks same direction but it does not hit Bar
     bar.move(room.getNextTile(bar.tile, new Direction(0,1 )));
     assertFalse(game.attack(foo, new Direction(0, 1)));
+
+    // Bar attacks Foo direction with long range weapon - bow
+    assertTrue(game.attack(bar, new Direction(0, -2)));
+    assertEquals(92, foo.getHealth());
+
+    // Fnord attacks Foo with long range weapon - magical staff
+    assertTrue(game.attack(fnord, new Direction(-3, -1)));
+    assertEquals(82, foo.getHealth());
+    assertEquals(35, foo.getMagic());
+
+    // Fnord tries to attack undestructible wall
+    Tile undestructible = room.getTiles()[0][0];
+    assertTrue(undestructible instanceof  WallTile && ((WallTile) undestructible).getDestructible() == 0);
+    assertFalse(game.attack(fnord, new Direction(-4, -2)));
+
+    // Fnord tries to attack destructible wall
 
   }
 }
